@@ -24,7 +24,4 @@ class ElfCalorieCounter {
   };
 }
 
-const elfCalCounter = new ElfCalorieCounter();
-console.log(elfCalCounter.solve());
-
 module.exports = ElfCalorieCounter;
