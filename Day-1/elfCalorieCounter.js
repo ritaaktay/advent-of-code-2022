@@ -29,7 +29,7 @@ class ElfCalorieCounter {
   getTopThreeElvesWithMostCalories = () => {
     const elfTotals = this.getElfTotals(this.elves);
     return elfTotals
-      .sort()
+      .sort((a, b) => b - a)
       .slice(0, 3)
       .reduce((a, b) => a + b, 0);
   };
@@ -40,5 +40,8 @@ class ElfCalorieCounter {
     });
   };
 }
+
+const counter = new ElfCalorieCounter("./Day-1/input.txt");
+console.log(counter.getTopThreeElvesWithMostCalories());
 
 module.exports = ElfCalorieCounter;
