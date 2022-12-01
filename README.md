@@ -1,6 +1,6 @@
 # Advent of Code 2022
 
-Solutions to the [Advent of Code 2022](https://adventofcode.com/) problems.
+Solutions to the [Advent of Code 2022](https://adventofcode.com/) problems
 
 I will attempt to TDD!
 
