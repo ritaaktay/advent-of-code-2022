@@ -1,6 +1,10 @@
 const { readFileSync } = require("fs");
 
 class ElfCalorieCounter {
+  solve = () => {
+    return this.getElfWithMostCalories("./Day-1/input.txt");
+  };
+
   getElfWithMostCalories = (path) => {
     const input = readFileSync(path).toString().split("\n");
     let all = [];
@@ -19,5 +23,8 @@ class ElfCalorieCounter {
     return all.reduce((a, b) => (a > b ? a : b));
   };
 }
+
+const elfCalCounter = new ElfCalorieCounter();
+console.log(elfCalCounter.solve());
 
 module.exports = ElfCalorieCounter;
