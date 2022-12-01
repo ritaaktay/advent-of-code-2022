@@ -1,26 +1,29 @@
 const { readFileSync } = require("fs");
 
 class ElfCalorieCounter {
-  solve = () => {
-    return this.getElfWithMostCalories("./Day-1/input.txt");
-  };
+  constructor(path) {
+    this.input = readFileSync(path).toString().split("\n");
+    this.elves = [];
+    this.splitElves();
+  }
 
-  getElfWithMostCalories = (path) => {
-    const input = readFileSync(path).toString().split("\n");
-    let all = [];
+  splitElves = () => {
     let elf = [];
-    input.forEach((i) => {
+    this.input.forEach((i) => {
       if (i != "") {
-        elf.push(i);
+        elf.push(parseInt(i));
       } else {
-        const total = elf
-          .map((cal) => parseInt(cal))
-          .reduce((a, b) => a + b, 0);
-        all.push(total);
+        this.elves.push(elf);
         elf = [];
       }
     });
-    return all.reduce((a, b) => (a > b ? a : b));
+  };
+
+  getElfWithMostCalories = () => {
+    const elfTotals = this.elves.map((elf) => {
+      return elf.reduce((a, b) => a + b, 0);
+    });
+    return elfTotals.reduce((a, b) => (a > b ? a : b));
   };
 }
 
