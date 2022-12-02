@@ -3,6 +3,25 @@ const { readFileSync } = require("fs");
 class ScoreCounter {
   constructor(path) {
     this.path = path;
+    // A Rock
+    // B Paper
+    // C Scissors
+    // X Rock
+    // Y Paper
+    // Z Scissors
+
+    // Rock defeats Scissors
+    // Scissors defeats Paper
+    // Paper defeats Rock
+
+    // Rock 1
+    // Paper 2
+    // Scissors 3
+
+    // Lost 0
+    // Draw 3
+    // Win 6
+
     this.legend = {
       "A X": 3,
       "B Y": 3,
@@ -13,9 +32,9 @@ class ScoreCounter {
       "A Z": 6,
       "B X": 6,
       "C Y": 6,
-      "A": 1,
-      "B": 2,
-      "C": 3,
+      "X": 1,
+      "Y": 2,
+      "Z": 3,
     };
   }
 
@@ -26,7 +45,7 @@ class ScoreCounter {
   }
 
   getScore(round) {
-    return this.legend[round[0]] + this.legend[round];
+    return this.legend[round[2]] + this.legend[round];
   }
 
   splitRounds() {
