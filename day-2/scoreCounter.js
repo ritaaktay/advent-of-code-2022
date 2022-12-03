@@ -7,9 +7,9 @@ class ScoreCounter {
     // B Paper - 2
     // C Scissors - 3
 
-    // X Lose
-    // Y Draw
-    // Z Win
+    // X Lose - 0
+    // Y Draw - 3
+    // Z Win - 6
 
     this.legend = {
       "A X": 3,
@@ -21,6 +21,9 @@ class ScoreCounter {
       "A Z": 2,
       "B X": 1,
       "C Y": 3,
+      "X": 0,
+      "Y": 3,
+      "Z": 6,
     };
   }
 
