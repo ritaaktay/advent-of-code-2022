@@ -8,7 +8,7 @@ class ItemPrioritiser {
   }
 
   getRucksacks() {
-    const rucksacks = readFileSync(path).toString().split("\n");
+    const rucksacks = readFileSync(this.path).toString().split("\n");
     return rucksacks.slice(0, rucksacks.length - 1);
   }
 
@@ -29,7 +29,6 @@ class ItemPrioritiser {
   getPriorities() {
     return this.rucksacks.map((rs) => {
       const item = this.getRepeatingItem(rs);
-      console.log(this.priorityHash[item]);
       return this.priorityHash[item];
     });
   }
@@ -41,6 +40,33 @@ class ItemPrioritiser {
       if (secondComp.includes(item)) return item;
     }
   }
+
+  getTotalPrioritiesForBadges() {
+    const priorities = this.getPrioritiesForBadges();
+    return priorities.reduce((a, b) => a + b);
+  }
+
+  getPrioritiesForBadges() {
+    const priorities = [];
+    for (let i = 0; i < this.rucksacks.length; i += 3) {
+      const badge = this.getBadge([
+        this.rucksacks[i],
+        this.rucksacks[i + 1],
+        this.rucksacks[i + 2],
+      ]);
+      priorities.push(this.priorityHash[badge]);
+    }
+    return priorities;
+  }
+
+  getBadge(rs) {
+    for (let item of rs[0]) {
+      if (rs[1].includes(item) && rs[2].includes(item)) return item;
+    }
+  }
 }
+
+const prioritiser = new ItemPrioritiser("./day-3/input.txt");
+console.log(prioritiser.getTotalPriorities());
 
 module.exports = ItemPrioritiser;

@@ -1,4 +1,4 @@
-const ItemPriotitiser = require("./itemPriotitiser");
+const ItemPriotitiser = require("./itemPrioritiser");
 
 describe("ItemPriotitiser", () => {
   it("has priority hash", () => {
@@ -76,5 +76,27 @@ describe("ItemPriotitiser", () => {
     path = "./day-3/mock.txt";
     const prioritiser = new ItemPriotitiser(path);
     expect(prioritiser.getTotalPriorities()).toEqual(157);
+  });
+
+  it("gets badge from group of three rucksacks", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    const badge = prioritiser.getBadge([
+      "vJrwpWtwJgWrhcsFMMfFFhFp",
+      "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL",
+      "PmmdzqPrVvPwwTWBwg",
+    ]);
+    expect(badge).toEqual("r");
+  });
+
+  it("gets badge from group of three rucksacks", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    const badge = prioritiser.getBadge([
+      "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn",
+      "ttgJtRGJQctTZtZT",
+      "CrZsJsPPZsGzwwsLwLmpwMDw",
+    ]);
+    expect(badge).toEqual("Z");
   });
 });
