@@ -26,13 +26,18 @@ class ItemPrioritiser {
   }
 
   getPriorities() {
-    this.rucksacks.forEach((rs) => {
-      this.getRepeatingItem(rs);
+    this.rucksacks.map((rs) => {
+      const item = this.getRepeatingItem(rs);
+      return this.priorityHash[item];
     });
   }
 
-  getRepeatingItem() {
-    return;
+  getRepeatingItem(rs) {
+    const firstComp = rs.slice(0, rs.length / 2);
+    const secondComp = rs.slice(rs.length / 2, rs.length);
+    for (let item of rs) {
+      if (secondComp.includes(item)) return item;
+    }
   }
 }
 

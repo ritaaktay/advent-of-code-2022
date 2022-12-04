@@ -23,4 +23,46 @@ describe("ItemPriotitiser", () => {
       "CrZsJsPPZsGzwwsLwLmpwMDw",
     ]);
   });
+
+  it("finds repeating item in a rucksack", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    const rucksack = "vJrwpWtwJgWrhcsFMMfFFhFp";
+    expect(prioritiser.getRepeatingItem(rucksack)).toEqual("p");
+  });
+
+  it("finds repeating item in a rucksack", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    const rucksack = "jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL";
+    expect(prioritiser.getRepeatingItem(rucksack)).toEqual("L");
+  });
+
+  it("finds repeating item in a rucksack", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    const rucksack = "PmmdzqPrVvPwwTWBwg";
+    expect(prioritiser.getRepeatingItem(rucksack)).toEqual("P");
+  });
+
+  it("finds repeating item in a rucksack", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    const rucksack = "wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn";
+    expect(prioritiser.getRepeatingItem(rucksack)).toEqual("v");
+  });
+
+  it("finds repeating item in a rucksack", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    const rucksack = "ttgJtRGJQctTZtZT";
+    expect(prioritiser.getRepeatingItem(rucksack)).toEqual("t");
+  });
+
+  it("finds repeating item in a rucksack", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    const rucksack = "CrZsJsPPZsGzwwsLwLmpwMDw";
+    expect(prioritiser.getRepeatingItem(rucksack)).toEqual("s");
+  });
 });
