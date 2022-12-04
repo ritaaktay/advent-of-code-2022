@@ -4,7 +4,7 @@ class ItemPrioritiser {
   constructor(path) {
     this.path = path;
     this.rucksacks = this.getRucksacks();
-    this.priorityHash = {};
+    this.priorityHash = this.getPriorityHash();
   }
 
   getRucksacks() {
@@ -13,21 +13,23 @@ class ItemPrioritiser {
   }
 
   getTotalPriorities() {
-    this.getPriorityHash();
     const priorities = this.getPriorities();
     return priorities.reduce((a, b) => a + b);
   }
 
   getPriorityHash() {
     const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const hash = {};
     for (let i = 1; i <= 52; i++) {
-      this.priorityHash[alphabet[i - 1]] = i;
+      hash[alphabet[i - 1]] = i;
     }
+    return hash;
   }
 
   getPriorities() {
-    this.rucksacks.map((rs) => {
+    return this.rucksacks.map((rs) => {
       const item = this.getRepeatingItem(rs);
+      console.log(this.priorityHash[item]);
       return this.priorityHash[item];
     });
   }

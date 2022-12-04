@@ -65,4 +65,10 @@ describe("ItemPriotitiser", () => {
     const rucksack = "CrZsJsPPZsGzwwsLwLmpwMDw";
     expect(prioritiser.getRepeatingItem(rucksack)).toEqual("s");
   });
+
+  it("maps repeating items with priority scores", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    expect(prioritiser.getPriorities()).toEqual([16, 38, 42, 22, 20, 19]);
+  });
 });
