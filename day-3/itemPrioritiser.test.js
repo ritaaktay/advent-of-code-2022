@@ -99,4 +99,16 @@ describe("ItemPriotitiser", () => {
     ]);
     expect(badge).toEqual("Z");
   });
+
+  it("gets priorities for all badges", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    expect(prioritiser.getPrioritiesForBadges()).toEqual([18, 52]);
+  });
+
+  it("gets total priorities for all badges", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    expect(prioritiser.getTotalPrioritiesForBadges()).toEqual(70);
+  });
 });
