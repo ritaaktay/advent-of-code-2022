@@ -67,6 +67,6 @@ class ItemPrioritiser {
 }
 
 const prioritiser = new ItemPrioritiser("./day-3/input.txt");
-console.log(prioritiser.getTotalPriorities());
+console.log(prioritiser.getTotalPrioritiesForBadges());
 
 module.exports = ItemPrioritiser;
