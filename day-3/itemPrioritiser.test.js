@@ -71,4 +71,10 @@ describe("ItemPriotitiser", () => {
     const prioritiser = new ItemPriotitiser(path);
     expect(prioritiser.getPriorities()).toEqual([16, 38, 42, 22, 20, 19]);
   });
+
+  it("gets total priority score", () => {
+    path = "./day-3/mock.txt";
+    const prioritiser = new ItemPriotitiser(path);
+    expect(prioritiser.getTotalPriorities()).toEqual(157);
+  });
 });
