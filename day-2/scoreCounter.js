@@ -3,13 +3,6 @@ const { readFileSync } = require("fs");
 class ScoreCounter {
   constructor(path) {
     this.path = path;
-    // A Rock - 1
-    // B Paper - 2
-    // C Scissors - 3
-
-    // X Lose - 0
-    // Y Draw - 3
-    // Z Win - 6
 
     this.legend = {
       "A X": 3,
@@ -42,7 +35,7 @@ class ScoreCounter {
   }
 }
 
-const scoreCounter = new ScoreCounter("./day-2/input.txt");
+const scoreCounter = new ScoreCounter("./Day-2/input.txt");
 console.log(scoreCounter.count());
 
 module.exports = ScoreCounter;
