@@ -8,11 +8,18 @@ class OverlapCounter {
 
   getPairs() {
     const pairs = readFileSync(this.path).toString().split("\n");
-    console.log(pairs);
     return pairs.slice(0, pairs.length - 1);
   }
 
-  getTotalOverlaps() {}
+  entireOverlap(pair) {
+    pair = pair.split(",").map((p) => p.split("-"));
+    return (
+      (pair[0][0] <= pair[1][0] && pair[0][1] >= pair[1][1]) ||
+      (pair[0][0] >= pair[1][0] && pair[0][1] <= pair[1][1])
+    );
+  }
+
+  getAllEntireOverlaps() {}
 }
 
 // const counter = new OverlapCounter("./day-4/input.txt");
