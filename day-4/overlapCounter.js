@@ -19,6 +19,14 @@ class OverlapCounter {
     );
   }
 
+  overlap(pair) {
+    pair = pair.split(",").map((p) => p.split("-").map((num) => parseInt(num)));
+    return (
+      (pair[0][0] <= pair[1][1] && pair[0][0] >= pair[1][0]) ||
+      (pair[1][0] >= pair[0][0] && pair[1][0] <= pair[0][1])
+    );
+  }
+
   getAllEntireOverlaps() {
     let counter = 0;
     this.pairs.forEach((pair) => {
@@ -26,9 +34,17 @@ class OverlapCounter {
     });
     return counter;
   }
+
+  getAllOverlaps() {
+    let counter = 0;
+    this.pairs.forEach((pair) => {
+      if (this.overlap(pair)) counter++;
+    });
+    return counter;
+  }
 }
 
 const counter = new OverlapCounter("./day-4/input.txt");
-counter.seeDiff();
+console.log(counter.getAllEntireOverlaps());
 
 module.exports = OverlapCounter;

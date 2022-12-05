@@ -44,9 +44,39 @@ describe("OverlapCounter", () => {
     expect(counter.getAllEntireOverlaps()).toEqual(2);
   });
 
-  it("checks if pair has total overlap", () => {
+  it("checks if pair has overlap", () => {
     path = "./day-4/mock.txt";
     const counter = new OverlapCounter(path);
-    expect(counter.entireOverlap("1-1,1-1")).toEqual(true);
+    expect(counter.overlap("5-7,7-9")).toEqual(true);
+  });
+
+  it("checks if pair has overlap", () => {
+    path = "./day-4/mock.txt";
+    const counter = new OverlapCounter(path);
+    expect(counter.overlap("2-6,4-8")).toEqual(true);
+  });
+
+  it("checks if pair has overlap", () => {
+    path = "./day-4/mock.txt";
+    const counter = new OverlapCounter(path);
+    expect(counter.overlap("2-8,3-7")).toEqual(true);
+  });
+
+  it("checks if pair has overlap", () => {
+    path = "./day-4/mock.txt";
+    const counter = new OverlapCounter(path);
+    expect(counter.overlap("6-6,4-6")).toEqual(true);
+  });
+
+  it("checks if pair has overlap", () => {
+    path = "./day-4/mock.txt";
+    const counter = new OverlapCounter(path);
+    expect(counter.overlap("2-4,6-8")).toEqual(false);
+  });
+
+  it("checks if pair has overlap", () => {
+    path = "./day-4/mock.txt";
+    const counter = new OverlapCounter(path);
+    expect(counter.overlap("2-3,4-5")).toEqual(false);
   });
 });
