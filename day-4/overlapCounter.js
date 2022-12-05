@@ -12,10 +12,10 @@ class OverlapCounter {
   }
 
   entireOverlap(pair) {
-    pair = pair.split(",").map((p) => p.split("-"));
+    pair = pair.split(",").map((p) => p.split("-").map((num) => parseInt(num)));
     return (
       (pair[0][0] <= pair[1][0] && pair[0][1] >= pair[1][1]) ||
-      (pair[0][0] >= pair[1][0] && pair[0][1] <= pair[1][1])
+      (pair[1][0] <= pair[0][0] && pair[1][1] >= pair[0][1])
     );
   }
 
@@ -28,7 +28,7 @@ class OverlapCounter {
   }
 }
 
-// const counter = new OverlapCounter("./day-4/input.txt");
-// console.log(counter.getTotalOverlaps());
+const counter = new OverlapCounter("./day-4/input.txt");
+console.log(counter.getAllEntireOverlaps());
 
 module.exports = OverlapCounter;
