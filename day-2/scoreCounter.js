@@ -35,7 +35,7 @@ class ScoreCounter {
   }
 }
 
-const scoreCounter = new ScoreCounter("./Day-2/input.txt");
+const scoreCounter = new ScoreCounter("./day-2/input.txt");
 console.log(scoreCounter.count());
 
 module.exports = ScoreCounter;

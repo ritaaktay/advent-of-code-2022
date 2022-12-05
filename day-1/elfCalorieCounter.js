@@ -41,7 +41,7 @@ class ElfCalorieCounter {
   };
 }
 
-const counter = new ElfCalorieCounter("./Day-1/input.txt");
+const counter = new ElfCalorieCounter("./day-1/input.txt");
 console.log(counter.getTopThreeElvesWithMostCalories());
 
 module.exports = ElfCalorieCounter;
