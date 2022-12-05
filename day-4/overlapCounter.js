@@ -29,6 +29,6 @@ class OverlapCounter {
 }
 
 const counter = new OverlapCounter("./day-4/input.txt");
-console.log(counter.getAllEntireOverlaps());
+counter.seeDiff();
 
 module.exports = OverlapCounter;
