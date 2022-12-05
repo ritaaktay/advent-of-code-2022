@@ -37,4 +37,10 @@ describe("OverlapCounter", () => {
     const counter = new OverlapCounter(path);
     expect(counter.entireOverlap("5-7,7-9")).toEqual(false);
   });
+
+  it("checks total amount of pairs who have total overlap", () => {
+    path = "./day-4/mock.txt";
+    const counter = new OverlapCounter(path);
+    expect(counter.getAllEntireOverlaps()).toEqual(2);
+  });
 });

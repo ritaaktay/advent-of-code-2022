@@ -19,7 +19,13 @@ class OverlapCounter {
     );
   }
 
-  getAllEntireOverlaps() {}
+  getAllEntireOverlaps() {
+    let counter = 0;
+    this.pairs.forEach((pair) => {
+      if (this.entireOverlap(pair)) counter++;
+    });
+    return counter;
+  }
 }
 
 // const counter = new OverlapCounter("./day-4/input.txt");
