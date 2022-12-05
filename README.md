@@ -6,6 +6,7 @@ Focusing on TDD, currently using JavaScript for speed and will switch to TypeScr
 
 [Day 1 - Rock Paper Scissors](https://adventofcode.com/2022/day/1) ⭐⭐\
 [Day 2 - Calorie Counting](https://adventofcode.com/2022/day/2) ⭐⭐\
-[Day 3 - Rucksack Reorganisation](https://adventofcode.com/2022/day/3) ⭐⭐
+[Day 3 - Rucksack Reorganisation](https://adventofcode.com/2022/day/3) ⭐⭐\
+[Day 4 - Camp Cleanup](https://adventofcode.com/2022/day/4) ⭐⭐
 
 Thank you [Eric Wastl](http://was.tl/), who writes these fun puzzles for all of us to enjoy!

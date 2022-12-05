@@ -79,4 +79,10 @@ describe("OverlapCounter", () => {
     const counter = new OverlapCounter(path);
     expect(counter.overlap("2-3,4-5")).toEqual(false);
   });
+
+  it("counts all pairs that have overlap", () => {
+    path = "./day-4/mock.txt";
+    const counter = new OverlapCounter(path);
+    expect(counter.getAllOverlaps()).toEqual(4);
+  });
 });
