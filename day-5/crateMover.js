@@ -8,8 +8,8 @@ class CrateMover {
   }
 
   processInstructions() {
-    this.instructions.forEach((i) => {
-      moveCrates(i);
+    this.instructions.forEach((instruction) => {
+      this.moveCrates(instruction);
     });
   }
 

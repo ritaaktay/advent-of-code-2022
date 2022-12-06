@@ -32,4 +32,15 @@ describe("CrateMover", () => {
       "3": ["P"],
     });
   });
+
+  it("processes all instructions", () => {
+    path = "./day-5/mock.txt";
+    const mover = new CrateMover(path);
+    mover.processInstructions();
+    expect(mover.stacks).toEqual({
+      "1": ["C"],
+      "2": ["M"],
+      "3": ["P", "D", "N", "Z"],
+    });
+  });
 });
