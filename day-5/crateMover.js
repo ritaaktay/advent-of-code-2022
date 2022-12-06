@@ -14,13 +14,10 @@ class CrateMover {
     // return lines.slice(0, divider);
   }
 
-  getInstruction() {
+  getInstructions() {
     const lines = readFileSync(this.path).toString().split("\n");
-    return lines.filter((line) => line.contains("move"));
+    return lines.filter((line) => line.includes("move"));
   }
 }
 
-const counter = new OverlapCounter("./day-4/input.txt");
-console.log(counter.getAllOverlaps());
-
-module.exports = OverlapCounter;
+module.exports = CrateMover;
