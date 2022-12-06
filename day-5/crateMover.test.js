@@ -50,4 +50,10 @@ describe("CrateMover", () => {
     mover.processInstructions();
     expect(mover.getTopCrates()).toEqual("CMZ");
   });
+
+  it("runs", () => {
+    path = "./day-5/mock.txt";
+    const mover = new CrateMover(path);
+    expect(mover.run()).toEqual("CMZ");
+  });
 });
