@@ -21,4 +21,10 @@ describe("CrateMover", () => {
       "3": ["P"],
     });
   });
+
+  it("moves crates", () => {
+    path = "./day-5/mock.txt";
+    const mover = new CrateMover(path);
+    mover.moveCrates("move 3 from 1 to 3");
+  });
 });

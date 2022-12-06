@@ -4,8 +4,20 @@ class CrateMover {
   constructor(path) {
     this.path = path;
     this.stacks = this.getStacks();
-    //stacks have the TOP crate as LAST item
     this.instructions = this.getInstructions();
+  }
+
+  processInstructions() {
+    this.instructions.forEach((i) => {
+      moveCrates(i);
+    });
+  }
+
+  moveCrates(instruction) {
+    const regex = /^move (\d*) from (\d*) to (\d*)$/;
+    const amount = regex.exec(instruction)[1];
+    const from = regex.exec(instruction)[2];
+    const to = regex.exec(instruction)[3];
   }
 
   getStacks() {
