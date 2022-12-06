@@ -18,7 +18,6 @@ class CrateMover {
     for (let i = 1; i <= stackAmount; i++) {
       topCrates += this.stacks[i].pop();
     }
-    console.log(topCrates);
     return topCrates;
   }
 
@@ -79,5 +78,8 @@ class CrateMover {
     return lines.filter((line) => line.includes("move"));
   }
 }
+
+const mover = new CrateMover("./day-5/input.txt");
+console.log(mover.run());
 
 module.exports = CrateMover;
