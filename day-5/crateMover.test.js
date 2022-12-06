@@ -43,4 +43,11 @@ describe("CrateMover", () => {
       "3": ["P", "D", "N", "Z"],
     });
   });
+
+  it("processes all instructions", () => {
+    path = "./day-5/mock.txt";
+    const mover = new CrateMover(path);
+    mover.processInstructions();
+    expect(mover.getTopCrates()).toEqual("CMZ");
+  });
 });

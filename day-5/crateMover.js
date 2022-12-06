@@ -7,6 +7,21 @@ class CrateMover {
     this.instructions = this.getInstructions();
   }
 
+  run() {
+    this.processInstructions();
+    return this.getTopCrates();
+  }
+
+  getTopCrates() {
+    const stackAmount = Object.keys(this.stacks).length;
+    let topCrates = "";
+    for (let i = 1; i <= stackAmount; i++) {
+      topCrates += this.stacks[i].pop();
+    }
+    console.log(topCrates);
+    return topCrates;
+  }
+
   processInstructions() {
     this.instructions.forEach((instruction) => {
       this.moveCrates(instruction);
