@@ -11,7 +11,7 @@ class CrateMover {
     const lines = readFileSync(this.path).toString().split("\n");
     lines.pop();
     const divider = lines.indexOf("");
-    // return lines.slice(0, divider);
+    console.log(lines.slice(0, divider));
   }
 
   getInstructions() {
