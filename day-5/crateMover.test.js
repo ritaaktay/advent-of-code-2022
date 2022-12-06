@@ -25,6 +25,11 @@ describe("CrateMover", () => {
   it("moves crates", () => {
     path = "./day-5/mock.txt";
     const mover = new CrateMover(path);
-    mover.moveCrates("move 3 from 1 to 3");
+    mover.moveCrates("move 1 from 2 to 1");
+    expect(mover.stacks).toEqual({
+      "1": ["Z", "N", "D"],
+      "2": ["M", "C"],
+      "3": ["P"],
+    });
   });
 });

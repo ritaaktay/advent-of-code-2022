@@ -15,9 +15,13 @@ class CrateMover {
 
   moveCrates(instruction) {
     const regex = /^move (\d*) from (\d*) to (\d*)$/;
-    const amount = regex.exec(instruction)[1];
+    const amount = parseInt(regex.exec(instruction)[1]);
     const from = regex.exec(instruction)[2];
     const to = regex.exec(instruction)[3];
+    for (let i = 0; i < amount; i++) {
+      const container = this.stacks[from].pop();
+      this.stacks[to].push(container);
+    }
   }
 
   getStacks() {
