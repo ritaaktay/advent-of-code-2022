@@ -4,6 +4,7 @@ class CrateMover {
   constructor(path) {
     this.path = path;
     this.stacks = this.getStacks();
+    //stacks have the TOP crate as LAST item
     this.instructions = this.getInstructions();
   }
 
@@ -12,7 +13,15 @@ class CrateMover {
     lines.pop();
     const divider = lines.indexOf("");
     const crateData = lines.slice(0, divider - 1);
-    return this.makeStacks(crateData);
+    return this.reverseStacks(this.makeStacks(crateData));
+  }
+
+  reverseStacks(stacks) {
+    const stackAmount = Object.keys(stacks).length;
+    for (let i = 1; i <= stackAmount; i++) {
+      stacks[i].reverse();
+    }
+    return stacks;
   }
 
   makeStacks(crateData) {

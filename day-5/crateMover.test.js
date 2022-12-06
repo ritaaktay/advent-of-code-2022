@@ -16,8 +16,8 @@ describe("CrateMover", () => {
     path = "./day-5/mock.txt";
     const mover = new CrateMover(path);
     expect(mover.stacks).toEqual({
-      "1": ["N", "Z"],
-      "2": ["D", "C", "M"],
+      "1": ["Z", "N"],
+      "2": ["M", "C", "D"],
       "3": ["P"],
     });
   });
