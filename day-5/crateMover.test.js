@@ -25,7 +25,7 @@ describe("CrateMover", () => {
   it("moves crates", () => {
     path = "./day-5/mock.txt";
     const mover = new CrateMover(path);
-    mover.moveCrates("move 1 from 2 to 1");
+    mover.moveCratesOneAtATime("move 1 from 2 to 1");
     expect(mover.stacks).toEqual({
       "1": ["Z", "N", "D"],
       "2": ["M", "C"],
@@ -44,7 +44,7 @@ describe("CrateMover", () => {
     });
   });
 
-  it("processes all instructions", () => {
+  it("gets top crates", () => {
     path = "./day-5/mock.txt";
     const mover = new CrateMover(path);
     mover.processInstructions();
@@ -54,6 +54,29 @@ describe("CrateMover", () => {
   it("runs", () => {
     path = "./day-5/mock.txt";
     const mover = new CrateMover(path);
-    expect(mover.run()).toEqual("CMZ");
+    expect(mover.run(false)).toEqual("CMZ");
+  });
+
+  it("moves crates all at once", () => {
+    path = "./day-5/mock.txt";
+    const mover = new CrateMover(path);
+    mover.moveCratesAllAtOnce("move 1 from 2 to 1");
+    expect(mover.stacks).toEqual({
+      "1": ["Z", "N", "D"],
+      "2": ["M", "C"],
+      "3": ["P"],
+    });
+  });
+
+  it("moves crates all at once", () => {
+    path = "./day-5/mock.txt";
+    const mover = new CrateMover(path);
+    mover.moveCratesAllAtOnce("move 1 from 2 to 1");
+    mover.moveCratesAllAtOnce("move 3 from 1 to 3");
+    expect(mover.stacks).toEqual({
+      "1": [],
+      "2": ["M", "C"],
+      "3": ["P", "Z", "N", "D"],
+    });
   });
 });

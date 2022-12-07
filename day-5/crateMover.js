@@ -1,4 +1,5 @@
 const { readFileSync } = require("fs");
+const { start } = require("repl");
 
 class CrateMover {
   constructor(path) {
@@ -7,8 +8,8 @@ class CrateMover {
     this.instructions = this.getInstructions();
   }
 
-  run() {
-    this.processInstructions();
+  run(crateMoverIs9001) {
+    this.processInstructions(crateMoverIs9001);
     return this.getTopCrates();
   }
 
@@ -21,21 +22,35 @@ class CrateMover {
     return topCrates;
   }
 
-  processInstructions() {
+  processInstructions(crateMoverIs9001) {
     this.instructions.forEach((instruction) => {
-      this.moveCrates(instruction);
+      crateMoverIs9001
+        ? this.moveCratesAllAtOnce(instruction)
+        : this.moveCratesOneAtATime(instruction);
     });
   }
 
-  moveCrates(instruction) {
-    const regex = /^move (\d*) from (\d*) to (\d*)$/;
-    const amount = parseInt(regex.exec(instruction)[1]);
-    const from = regex.exec(instruction)[2];
-    const to = regex.exec(instruction)[3];
+  moveCratesOneAtATime(instruction) {
+    let [amount, from, to] = this.parseInstruction(instruction);
     for (let i = 0; i < amount; i++) {
       const container = this.stacks[from].pop();
       this.stacks[to].push(container);
     }
+  }
+
+  moveCratesAllAtOnce(instruction) {
+    let [amount, from, to] = this.parseInstruction(instruction);
+    const start = this.stacks[from].length - amount;
+    const containers = this.stacks[from].splice(start, amount);
+    this.stacks[to] = this.stacks[to].concat(containers);
+  }
+
+  parseInstruction(instruction) {
+    const regex = /^move (\d*) from (\d*) to (\d*)$/;
+    const amount = parseInt(regex.exec(instruction)[1]);
+    const from = regex.exec(instruction)[2];
+    const to = regex.exec(instruction)[3];
+    return [amount, from, to];
   }
 
   getStacks() {
@@ -80,6 +95,6 @@ class CrateMover {
 }
 
 const mover = new CrateMover("./day-5/input.txt");
-console.log(mover.run());
+// console.log(mover.run(false));
 
 module.exports = CrateMover;
