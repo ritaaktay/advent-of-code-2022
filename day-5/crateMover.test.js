@@ -79,4 +79,10 @@ describe("CrateMover", () => {
       "3": ["P", "Z", "N", "D"],
     });
   });
+
+  it("gets top crates for moving crates all at once", () => {
+    path = "./day-5/mock.txt";
+    const mover = new CrateMover(path);
+    expect(mover.run(true)).toEqual("MCD");
+  });
 });

@@ -95,6 +95,6 @@ class CrateMover {
 }
 
 const mover = new CrateMover("./day-5/input.txt");
-// console.log(mover.run(false));
+console.log(mover.run(true));
 
 module.exports = CrateMover;
