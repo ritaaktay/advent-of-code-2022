@@ -1,35 +1,35 @@
 const CommunicationDevice = require("./communicationDevice");
 
 describe("CommunicationDevice", () => {
-  xit("Reports characters until first start of packet marker", () => {
+  it("Reports characters until first start of packet marker", () => {
     const device = new CommunicationDevice();
     expect(
       device.findStartOfPacketMarker("mjqjpqmgbljsphdztnvjfqwrcgsmlb")
     ).toEqual(7);
   });
 
-  xit("Reports characters until first start of packet marker", () => {
+  it("Reports characters until first start of packet marker", () => {
     const device = new CommunicationDevice();
     expect(
       device.findStartOfPacketMarker("bvwbjplbgvbhsrlpgdmjqwftvncz")
     ).toEqual(5);
   });
 
-  xit("Reports characters until first start of packet marker", () => {
+  it("Reports characters until first start of packet marker", () => {
     const device = new CommunicationDevice();
     expect(
       device.findStartOfPacketMarker("nppdvjthqldpwncqszvftbrmjlhg")
     ).toEqual(6);
   });
 
-  xit("Reports characters until first start of packet marker", () => {
+  it("Reports characters until first start of packet marker", () => {
     const device = new CommunicationDevice();
     expect(
       device.findStartOfPacketMarker("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg")
     ).toEqual(10);
   });
 
-  xit("Reports characters until first start of packet marker", () => {
+  it("Reports characters until first start of packet marker", () => {
     const device = new CommunicationDevice();
     expect(
       device.findStartOfPacketMarker("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw")
