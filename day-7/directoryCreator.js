@@ -29,10 +29,8 @@ class DirectoryCreator {
   }
 
   #move(instruction) {
-    console.log({ instruction });
     const regex = /^\$ cd ([a-zA-Z]*|..|\/)$/;
     const match = regex.exec(instruction);
-    console.log({ match });
     const dir = match[1];
     if (dir == "/") {
       this.current = this.root;
