@@ -2,7 +2,7 @@ const Dir = require("./dir");
 const { readFileSync } = require("fs");
 
 class DirectoryCreator {
-  constructor(path) {
+  constructor() {
     this.root = new Dir(null, "/");
   }
 
