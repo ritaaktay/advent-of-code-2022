@@ -25,14 +25,12 @@ class DirectoryCreator {
 
   #addDir(instruction) {
     const filename = /^dir ([a-z.]+)$/.exec(instruction)[1];
-    this.current.addChild(new Dir(this.current), filename);
+    this.current.addChild(new Dir(this.current, filename));
   }
 
   #move(instruction) {
     const regex = /^\$ cd ([a-zA-Z]*|..|\/)$/;
-    console.log(instruction);
     const match = regex.exec(instruction);
-    console.log(match);
     const dir = match[1];
     if (dir == "/") {
       this.current = this.root;
