@@ -20,7 +20,7 @@ class Dir {
     const files = this.files.reduce((a, b) => a + b);
     const directories = this.children
       .map((child) => child.size())
-      .reduce((a, b) => a + b);
+      .reduce((a, b) => a + b, 0);
     return files + directories;
   }
 }
