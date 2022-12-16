@@ -8,7 +8,7 @@ class DirectoryCalculator {
   }
 
   #checkSizes(dir, below) {
-    if (dir.size() < 100000) below.push(dir.size());
+    if (dir.size() <= 100000) below.push(dir.size());
     dir.children.forEach((child) => this.#checkSizes(child, below));
   }
 }

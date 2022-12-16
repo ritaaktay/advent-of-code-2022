@@ -10,7 +10,7 @@ class DirectoryCreator {
     let instructions = this.#parse(path);
     for (let i = 0; i < instructions.length; i++) {
       let instruction = instructions[i];
-      if (instruction.includes("cd")) this.#move(instruction);
+      if (instruction.startsWith("$ cd ")) this.#move(instruction);
       else if (instruction == "$ ls") continue;
       else if (instruction.startsWith("dir ")) this.#addDir(instruction);
       else this.#addFile(instruction);
@@ -29,8 +29,10 @@ class DirectoryCreator {
   }
 
   #move(instruction) {
+    console.log({ instruction });
     const regex = /^\$ cd ([a-zA-Z]*|..|\/)$/;
     const match = regex.exec(instruction);
+    console.log({ match });
     const dir = match[1];
     if (dir == "/") {
       this.current = this.root;
@@ -42,7 +44,9 @@ class DirectoryCreator {
   }
 
   #parse(path) {
-    return readFileSync(path).toString().split("\n");
+    const instructions = readFileSync(path).toString().split("\n");
+    instructions.pop();
+    return instructions;
   }
 }
 
