@@ -1,6 +1,6 @@
 const TreeVisibilityCalculator = require("./treeVisibilityCalculator.js");
 
-describe("", () => {
+describe("TreeVisibilityCalculator", () => {
   it("Parses matrix", () => {
     const calculator = new TreeVisibilityCalculator("./day-8/mock.txt");
     expect(calculator.matrix).toEqual([
@@ -10,5 +10,10 @@ describe("", () => {
       ["3", "3", "5", "4", "9"],
       ["3", "5", "3", "9", "0"],
     ]);
+  });
+
+  it("Counts visible trees", () => {
+    const calculator = new TreeVisibilityCalculator("./day-8/mock.txt");
+    expect(calculator.countVisibleTrees()).toEqual(21);
   });
 });
