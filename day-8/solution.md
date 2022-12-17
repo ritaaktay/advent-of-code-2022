@@ -1,4 +1,6 @@
-```Example tree matrix: 
+```
+
+Example tree matrix: 
 
 ["3", "0", "3", "7", "3"],
 ["2", "5", "5", "1", "2"],

@@ -1,6 +1,6 @@
 const { readFileSync } = require("fs");
 
-class DirectoryCreator {
+class TreeVisibilityCalculator {
   constructor(path) {
     this.matrix = this.#parseMatrix(path);
     this.visible = this.matrix.length * 4 - 4;
@@ -10,8 +10,6 @@ class DirectoryCreator {
     for (let r = 1; r < this.matrix.length - 1; r++) {
       const row = this.matrix[r];
       for (let i = 1; i < row.length - 1; i++) {
-        console.log(this.matrix[r][i]);
-        console.log(this.isVisible(r, i));
         if (this.isVisible(r, i)) this.visible++;
       }
     }
@@ -35,9 +33,7 @@ class DirectoryCreator {
 
   checkVisibleRight(indexOfRow, indexOfTree) {
     const row = this.matrix[indexOfRow];
-    console.log(row);
     const right = row.slice(indexOfTree + 1);
-    console.log(right);
     if (Math.max(...right) < row[indexOfTree]) {
       return true;
     }
@@ -71,4 +67,4 @@ class DirectoryCreator {
   }
 }
 
-module.exports = DirectoryCreator;
+module.exports = TreeVisibilityCalculator;
