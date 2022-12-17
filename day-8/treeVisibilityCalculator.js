@@ -34,9 +34,7 @@ class TreeVisibilityCalculator {
   checkVisibleRight(indexOfRow, indexOfTree) {
     const row = this.matrix[indexOfRow];
     const right = row.slice(indexOfTree + 1);
-    if (Math.max(...right) < row[indexOfTree]) {
-      return true;
-    }
+    if (Math.max(...right) < row[indexOfTree]) return true;
     return false;
   }
 
