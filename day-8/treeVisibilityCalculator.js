@@ -8,8 +8,7 @@ class TreeVisibilityCalculator {
 
   countVisibleTrees() {
     for (let r = 1; r < this.matrix.length - 1; r++) {
-      const row = this.matrix[r];
-      for (let i = 1; i < row.length - 1; i++) {
+      for (let i = 1; i < this.matrix.length - 1; i++) {
         if (this.isVisible(r, i)) this.visible++;
       }
     }
