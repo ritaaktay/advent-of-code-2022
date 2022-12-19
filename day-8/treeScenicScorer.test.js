@@ -12,7 +12,7 @@ describe("TreeScenicScorer", () => {
     ]);
   });
 
-  xit("Gets highest scenic score", () => {
+  it("Gets highest scenic score", () => {
     const scorer = new TreeScenicScorer("./day-8/mock.txt");
     expect(scorer.getTreeWithHighestScenicScore()).toEqual(8);
   });
