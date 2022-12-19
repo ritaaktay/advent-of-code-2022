@@ -5,7 +5,7 @@ class RopeModeller {
     this.moves = this.#parse(path);
     this.head = { x: 0, y: 0 };
     this.tail = { x: 0, y: 0 };
-    this.trail = [];
+    this.trail = [{ x: 0, y: 0 }];
   }
 
   processMoves() {
@@ -23,9 +23,9 @@ class RopeModeller {
 
   addToTrail() {
     if (
-      !this.trail.some((pos) => pos.x == this.tail.x && pos.y == this.trail.y)
+      !this.trail.some((pos) => pos.x == this.tail.x && pos.y == this.tail.y)
     ) {
-      this.trail.push(this.tail);
+      this.trail.push({ ...this.tail });
     }
   }
 
