@@ -13,6 +13,6 @@ Focusing on TDD, currently using JavaScript for speed and might switch to TypeSc
 [Day 7 - No Space Left On Device](https://adventofcode.com/2022/day/7) ⭐⭐\
 [Day 8 - Treetop Tree House](https://adventofcode.com/2022/day/8) ⭐⭐\
 [Day 9 - Rope Bridge](https://adventofcode.com/2022/day/9) ⭐⭐\
-[Day 10 - Cathode-Ray Tube](https://adventofcode.com/2022/day/10) ⭐
+[Day 10 - Cathode-Ray Tube](https://adventofcode.com/2022/day/10) ⭐⭐
 
 Thank you [Eric Wastl](http://was.tl/), who writes these fun puzzles for all of us to enjoy!

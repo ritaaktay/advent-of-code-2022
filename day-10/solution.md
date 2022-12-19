@@ -31,12 +31,6 @@ for (let i =20; i <=220; i+=40) {
 return total
 
 --- PART 2 ---
-I have an array of signal strengths that map to cycles
-Make this an array of X values, and strengths can be calculated by multiplying this X value by cycle number which is the index
-
-X represents the horizontal position of the middle of the sprite currently being drawn
-I.e. pixel currently being drawn is at [x-1, x, x+1] of the X value of that cycle
-
 CRT draws a 40 x 6 grid of pixels, one per cycle in 240 cycles, top to bottom, left to right
 [0,0] is drawn at cycle 1
 [0,1] is drawn at cycle 2
@@ -49,18 +43,26 @@ CRT draws a 40 x 6 grid of pixels, one per cycle in 240 cycles, top to bottom, l
 .
 [5,39] is drawn at cycle 240
 
-Whether to draw a # or . depends on whether that pixel is the pixel currently being drawn
-Store # as true (lit) and . as fasle (dark)
+I have an array of signal strengths that map to cycles
+Make this an array of X values, and strengths can be calculated by multiplying this X value by cycle number which is the index
 
-How to draw to screen:
+X represents the horizontal position of the middle of the sprite currently being drawn
+I.e. pixel currently being drawn is at [X-1, X, X+1] for the X value of that cycle
+"#" is drawn if the row index for that pixel is part of pixel currently being drawn
+"." is drawn if not
+Store boolean, true for "#" and false for "."
+
+
+How to draw to screen?
 
 To represent the screen, make nested array of Boolean values
-const screen = new Array(6)
+
+const screen = []
 for (r = 0, r < 6; r++) {
-  const row = new Array(40)
+  const row = []
   for (i = 0; i < 40; i ++) {
     const cycle = (r x 40) + i + 1
-    row[i] = pixelIsOfSprite(cycle, i)
+    row.push(pixelIsOfSprite(cycle, i))
   }
   screen.push(row)
 }
