@@ -50,7 +50,7 @@ If head position X < tail position X: tail position X -= 1
 
 Now the rope has 10 knots, H - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
 And 9 is the tail
-The goal is to track unique positions visited by the know 9 tail
+The goal is to track unique positions visited by the 9 tail
 
 Each two nots retain the same H - T relationship as before
 H - 1 behaves like H - T

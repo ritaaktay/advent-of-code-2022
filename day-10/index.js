@@ -1,3 +1,3 @@
-const MultiKnotRopeModeller = require("./multiKnotRopeModeller");
-const modeller = new MultiKnotRopeModeller("./day-9/input.txt");
-console.log(modeller.processMoves());
+const CPUSignalReader = require("./cpuSignalReader");
+const reader = new CPUSignalReader("./day-10/input.txt");
+console.log(reader.getSignalTotalEvery40());

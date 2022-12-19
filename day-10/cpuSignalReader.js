@@ -25,7 +25,6 @@ class CPUSignalReader {
         this.cycles.push(this.cycles.length * this.x);
         this.x += parseInt(match[1]);
       }
-      console.log(this.cycles);
     });
   }
 
