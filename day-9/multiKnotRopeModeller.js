@@ -18,15 +18,19 @@ class MultiKnotRopeModeller {
     this.moves.forEach((move) => {
       const [dir, amount] = move;
       for (let i = 0; i < amount; i++) {
-        this.knots[0] = this.moveHead(this.knots[0], dir);
-        for (let i = 0; i < this.knots.length - 1; i++) {
-          if (this.isTouching(this.knots[i], this.knots[i + 1])) continue;
-          this.knots[i + 1] = this.moveTail(this.knots[i], this.knots[i + 1]);
-        }
-        this.addToTrail(this.knots[this.knots.length - 1]);
+        this.moveOnce(dir);
       }
     });
     return this.trail.length;
+  }
+
+  moveOnce(dir) {
+    this.moveHead(this.knots[0], dir);
+    for (let i = 0; i < this.knots.length - 1; i++) {
+      if (this.isTouching(this.knots[i], this.knots[i + 1])) continue;
+      this.moveTail(this.knots[i], this.knots[i + 1]);
+    }
+    this.addToTrail(this.knots[this.knots.length - 1]);
   }
 
   addToTrail(tail) {
@@ -40,7 +44,6 @@ class MultiKnotRopeModeller {
     if (head.y < tail.y) tail.y--;
     if (head.x > tail.x) tail.x++;
     if (head.x < tail.x) tail.x--;
-    return tail;
   }
 
   moveHead(head, dir) {
@@ -48,7 +51,6 @@ class MultiKnotRopeModeller {
     if (dir == "L") head.x--;
     if (dir == "U") head.y++;
     if (dir == "D") head.y--;
-    return head;
   }
 
   isTouching(head, tail) {
