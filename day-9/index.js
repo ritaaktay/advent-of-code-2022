@@ -1,7 +1,3 @@
-const TreeVisibilityCalculator = require("./ropeModeller");
-const calculator = new TreeVisibilityCalculator("./day-8/input.txt");
-console.log(calculator.countVisibleTrees());
-
-const TreeScenicScorer = require("./treeScenicScorer");
-const scorer = new TreeScenicScorer("./day-8/input.txt");
-console.log(scorer.getTreeWithHighestScenicScore());
+const RopeModeller = require("./ropeModeller");
+const modeller = new RopeModeller("./day-9/input.txt");
+console.log(modeller.processMoves());
