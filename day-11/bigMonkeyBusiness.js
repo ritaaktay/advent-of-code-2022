@@ -1,6 +1,6 @@
 const { readFileSync } = require("fs");
 
-class MonkeyBusiness {
+class BigMonkeyBusiness {
   constructor(path) {
     this.path = path;
     this.monkeys = this.makeMonkeys();
@@ -25,8 +25,8 @@ class MonkeyBusiness {
   takeTurn(m) {
     m.items.forEach((i) => {
       m.inspected++;
-      i = Math.floor(this.inspect(i, m["op"]) / 3);
-      if (i % m.test === 0) this.monkeys[m.true].items.push(i);
+      i = this.inspect(i, m["op"]);
+      if (i % m.test == 0) this.monkeys[m.true].items.push(i);
       else this.monkeys[m.false].items.push(i);
     });
     m.items = [];
@@ -34,8 +34,8 @@ class MonkeyBusiness {
 
   inspect(item, op) {
     op = /(\d+) (\*|\+) (\d+)/.exec(op.replace(/old/g, item));
-    if (op[2] == "+") return parseInt(op[1]) + parseInt(op[3]);
-    else if (op[2] == "*") return parseInt(op[1]) * parseInt(op[3]);
+    if (op[2] == "+") return BigInt(op[1]) + BigInt(op[3]);
+    else if (op[2] == "*") return BigInt(op[1]) * BigInt(op[3]);
   }
 
   makeMonkeys() {
@@ -55,16 +55,16 @@ class MonkeyBusiness {
     regexp.forEach(([rgxp, key]) => {
       [...rows.matchAll(rgxp)].forEach((match, i) => {
         monkeys[i][key] =
-          (key == "op") | (key == "items") ? match[1] : parseInt(match[1]);
+          (key == "op") | (key == "items") ? match[1] : BigInt(match[1]);
       });
     });
 
     monkeys.forEach((m) => {
-      m.items = m.items.split(", ").map((i) => parseInt(i));
+      m.items = m.items.split(", ").map((i) => BigInt(i));
     });
 
     return monkeys;
   }
 }
 
-module.exports = MonkeyBusiness;
+module.exports = BigMonkeyBusiness;

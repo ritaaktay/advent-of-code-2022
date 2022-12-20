@@ -84,32 +84,58 @@ Monkey 1 inspected items 4 times.
 Monkey 2 inspected items 3 times.
 Monkey 3 inspected items 6 times.
 
-Inspection counts after Round 20 are one off per Monkey
-Monkey 0 inspected items 99 times // got 100 (+1)
-Monkey 1 inspected items 97 times // got 96 (-1)
-Monkey 2 inspected items 8 times // got 9 (+1)
+Inspection counts after Round 20 are one off
+Monkey 0 inspected items 99 times
+Monkey 1 inspected items 97 times
+Monkey 2 inspected items 8 times // got 10 (+2)
 Monkey 3 inspected items 103 times // got 104, (+1)
 
-Since the incrementing is simple (per item) it means that some items are beign thrown at the wrong monkeys
+--- TEST CASES ---
 
-Inspection counts after Round 1000 are cumulatively more off per Monkey
-Monkey 0 inspected items 5204 times. // got 5420 (+)
-Monkey 1 inspected items 4792 times. // got 4576 (-)
-Monkey 2 inspected items 199 times. // got 224 (+)
-Monkey 3 inspected items 5192 times. // got 5425 (+)
+Round 1
+Monkey 0 - 60, 71, 81, 80 - I 2
+Monkey 1 - 77, 1504, 1865, 6244, 3603, 9412 - I 4
+Monkey 2 - [] - I 3
+Monkey 3 - [] - I 6
+CORRECT
 
-Is it that Monkey 1 always gets less and others always gets more?
+Round 2
+Monkey 0 - [ 83, 1510, 1871, 6250, 3609, 9418 ] - I 6
+Monkey 1 - [ 1143, 1352, 1542, 1523 ] - I 10
+Monkey 2 - [] - I 3
+Monkey 3 - [] - I 10
+CORRECT
 
-After round 2000
-Monkey 0 inspected items 10419 times. // got 10857 (+)
-Monkey 1 inspected items 9577 times. // got 9139 (-)
-Monkey 2 inspected items 392 times. // got 437 (+)
-Monkey 3 inspected items 10391 times. // got 10862 (+)
+Round 3
+Monkey 0 - [ 1149, 1358, 1548, 1529 ] - I 12
+Monkey 1 - [ 1580, 28693, 35552, 118753, 68574, 178945 ] - I 14
+Monkey 2 - [] - I 3
+Monkey 3 - [] - I 16
+CORRECT
 
-Why would Monkey 1 always be less whilst others are always more?
-Who is throwing to Monkey 1 at what condition?
-Monkey 2 throws to Monkey 1 if divisible by 13
-Monkey 3 throws to Monkey 1 if NOT divisible by 17
 
-Since mostly NOT divisible occurs, will check if the divisible by 13 is working as expected
+Round 4
+Monkey 0 - [ 1586, 28699, 35558, 118759, 68580, 178951 ] - I 16
+Monkey 1 - [ 21834, 25805, 29415, 29054 ] - I 20
+Monkey 2 - [] - I 3
+Monkey 3 - [] - I 20
+CORRECT
+
+
+Round 5
+Monkey 0 - [ 1586, 28699, 35558, 118759, 68580, 178951 ] - I 16
+Monkey 1 - [ 21834, 25805, 29415, 29054 ] - I 20
+Monkey 2 - [] - I 3
+Monkey 3 - [] - I 20
+INCORRECT
+
+(Monkey 0 throws 35558 * 19 = 675602 to Monkey 2 because divisible by 23)
+Monkey 2 calculates 675602 * 675602 as 456438062407
+When it is supposet to be 456438062404
+
+Accuracy of calculation with large numbers in JavaScript?
+Using BigInt
+BigInt(675602) * BigInt(675602) = 456438062404n
+
+Since the operations are where the large nubmers occur, will use BigInt there
 ```
