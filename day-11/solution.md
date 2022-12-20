@@ -112,6 +112,4 @@ Monkey 2 throws to Monkey 1 if divisible by 13
 Monkey 3 throws to Monkey 1 if NOT divisible by 17
 
 Since mostly NOT divisible occurs, will check if the divisible by 13 is working as expected
-Log
-
 ```
