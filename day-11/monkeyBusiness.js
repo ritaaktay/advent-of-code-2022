@@ -1,9 +1,11 @@
 const { readFileSync } = require("fs");
 
 class MonkeyBusiness {
-  constructor(path) {
+  constructor(path, worry) {
     this.path = path;
     this.monkeys = this.makeMonkeys();
+    this.rounds = worry ? 10000 : 20;
+    this.worry = worry;
   }
 
   getHighest() {
@@ -13,7 +15,7 @@ class MonkeyBusiness {
   }
 
   makeRounds() {
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < this.rounds; i++) {
       this.oneRound();
     }
   }
@@ -25,29 +27,18 @@ class MonkeyBusiness {
   takeTurn(m) {
     m.items.forEach((i) => {
       m.inspected++;
-      i = this.releive(this.inspect(i, m["op"]));
-      if (this.test(i, m.test)) this.throw(m.true, i);
-      else this.throw(m.false, i);
+      i = this.inspect(i, m["op"]);
+      if (!this.worry) i = Math.floor(i / 3);
+      if (i % m.test === 0) this.monkeys[m.true].items.push(i);
+      else this.monkeys[m.false].items.push(i);
     });
     m.items = [];
-  }
-
-  throw(monkey, item) {
-    this.monkeys[monkey].items.push(item);
-  }
-
-  test(item, test) {
-    return item % test == 0;
-  }
-
-  releive(item) {
-    return Math.floor(item / 3);
   }
 
   inspect(item, op) {
     op = /(\d+) (\*|\+) (\d+)/.exec(op.replace(/old/g, item));
     if (op[2] == "+") return parseInt(op[1]) + parseInt(op[3]);
-    else if (op[2] == "*") return parseInt(op[1] * parseInt(op[3]));
+    else if (op[2] == "*") return parseInt(op[1]) * parseInt(op[3]);
   }
 
   makeMonkeys() {
