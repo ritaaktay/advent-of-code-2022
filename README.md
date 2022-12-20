@@ -1,4 +1,4 @@
-# Advent of Code 2022
+# 🎄🎄🎄 Advent of Code 2022 🎄🎄🎄
 
 I'm solving one coding puzzle a day for 25 days with [Advent of Code 2022](https://adventofcode.com/)
 
