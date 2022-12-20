@@ -23,24 +23,26 @@ describe("BigMonkeyBusiness", () => {
 
   it("Processes five rounds", () => {
     const mb = new BigMonkeyBusiness("./day-11/mock.txt");
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       mb.oneRound();
     }
     expect(mb.monkeys[0].items).toEqual(
-      [1586, 28699, 35558, 118759, 68580, 178951].map((x) => BigInt(x))
+      [21840, 25811, 29421, 29060].map((x) => BigInt(x))
     );
     expect(mb.monkeys[1].items).toEqual(
-      [21834, 25805, 29415, 29054].map((x) => BigInt(x))
+      [30137, 545284, 2256424, 1303023, 3400072, 456438062407].map((x) =>
+        BigInt(x)
+      )
     );
     expect(mb.monkeys[2].items).toEqual([]);
     expect(mb.monkeys[3].items).toEqual([]);
-    expect(mb.monkeys[0].inspected).toEqual(16);
-    expect(mb.monkeys[1].inspected).toEqual(20);
-    expect(mb.monkeys[2].inspected).toEqual(3);
-    expect(mb.monkeys[3].inspected).toEqual(20);
+    expect(mb.monkeys[0].inspected).toEqual(22);
+    expect(mb.monkeys[1].inspected).toEqual(24);
+    expect(mb.monkeys[2].inspected).toEqual(4);
+    expect(mb.monkeys[3].inspected).toEqual(26);
   });
 
-  xit("Processes 20 rounds", () => {
+  it("Processes 20 rounds", () => {
     const mb = new BigMonkeyBusiness("./day-11/mock.txt");
     for (let i = 0; i < 20; i++) {
       mb.oneRound();
@@ -51,11 +53,15 @@ describe("BigMonkeyBusiness", () => {
     expect(mb.monkeys[3].inspected).toEqual(103);
   });
 
-  xit("Processes 1000 rounds", () => {
+  it.only("Processes 100 rounds", () => {
     const mb = new BigMonkeyBusiness("./day-11/mock.txt");
     for (let i = 0; i < 1000; i++) {
       mb.oneRound();
     }
+    console.log(mb.monkeys[0].inspected);
+    console.log(mb.monkeys[1].inspected);
+    console.log(mb.monkeys[2].inspected);
+    console.log(mb.monkeys[3].inspected);
     expect(mb.monkeys[0].inspected).toEqual(5204);
     expect(mb.monkeys[1].inspected).toEqual(4792);
     expect(mb.monkeys[2].inspected).toEqual(199);

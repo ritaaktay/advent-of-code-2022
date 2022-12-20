@@ -1,4 +1,5 @@
 const { readFileSync } = require("fs");
+const BigNumber = require("bignumber.js");
 
 class BigMonkeyBusiness {
   constructor(path) {
@@ -25,8 +26,8 @@ class BigMonkeyBusiness {
   takeTurn(m) {
     m.items.forEach((i) => {
       m.inspected++;
-      i = this.inspect(i, m["op"]);
-      if (i % m.test == 0) this.monkeys[m.true].items.push(i);
+      i = this.inspect(i, m.op);
+      if (i.modulo(m.test).isEqualTo(0)) this.monkeys[m.true].items.push(i);
       else this.monkeys[m.false].items.push(i);
     });
     m.items = [];
@@ -34,8 +35,8 @@ class BigMonkeyBusiness {
 
   inspect(item, op) {
     op = /(\d+) (\*|\+) (\d+)/.exec(op.replace(/old/g, item));
-    if (op[2] == "+") return BigInt(op[1]) + BigInt(op[3]);
-    else if (op[2] == "*") return BigInt(op[1]) * BigInt(op[3]);
+    if (op[2] == "+") return BigNumber(op[1]).plus(BigNumber(op[3]));
+    else if (op[2] == "*") return BigNumber(op[1]).times(BigNumber(op[3]));
   }
 
   makeMonkeys() {
@@ -55,12 +56,12 @@ class BigMonkeyBusiness {
     regexp.forEach(([rgxp, key]) => {
       [...rows.matchAll(rgxp)].forEach((match, i) => {
         monkeys[i][key] =
-          (key == "op") | (key == "items") ? match[1] : BigInt(match[1]);
+          (key == "op") | (key == "items") ? match[1] : BigNumber(match[1]);
       });
     });
 
     monkeys.forEach((m) => {
-      m.items = m.items.split(", ").map((i) => BigInt(i));
+      m.items = m.items.split(", ").map((i) => BigNumber(i));
     });
 
     return monkeys;

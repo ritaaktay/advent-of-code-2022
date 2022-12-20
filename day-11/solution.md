@@ -47,31 +47,19 @@ makeRounds()
 - For loop 20
 - monkeys.each takeTurn()
 
-takeTurn()
-- monkey.items.each
-  - increment m.inspected
-  - calculate worry
-  - test and throw
-  - reset m.items to []
+    takeTurn()
+    - monkey.items.each
+      - increment m.inspected
+      - calculate worry
+      - test and throw
+      - reset m.items to []
 
-throw(item, monkey)
-  - monkeys[monkey].items.push(item)
+            inspect(item, op)
+              - replace "old" with item in test string
+              - apply the operation
+              - return result
 
-inspect(item, op)
-  - replace "old" with item in test string
-  - apply the operation
-  - return result
-
-relieve(item)
-  - divide item by three
-  - round down to nearest int
-  - return
-
-test(item, test)
-  - return true if item is divisible by test
-  - else return false
-
---- PART 1 ---
+--- PART 2 ---
 
 Should be enough to loop 10000 rather than 20 and skip step of dividing by 3 on each inspection
 But not getting the right answer for mocks...
@@ -89,8 +77,6 @@ Monkey 0 inspected items 99 times
 Monkey 1 inspected items 97 times
 Monkey 2 inspected items 8 times // got 10 (+2)
 Monkey 3 inspected items 103 times // got 104, (+1)
-
---- TEST CASES ---
 
 Round 1
 Monkey 0 - 60, 71, 81, 80 - I 2
@@ -123,10 +109,10 @@ CORRECT
 
 
 Round 5
-Monkey 0 - [ 1586, 28699, 35558, 118759, 68580, 178951 ] - I 16
-Monkey 1 - [ 21834, 25805, 29415, 29054 ] - I 20
-Monkey 2 - [] - I 3
-Monkey 3 - [] - I 20
+Monkey 0 - [21840, 25811, 29421, 29060] - I 22
+Monkey 1 - [ 30137, 545284, 2256424, 1303023, 3400072, 456438062407 ] - I 24
+Monkey 2 - [] - I 4
+Monkey 3 - [] - I 26
 INCORRECT
 
 (Monkey 0 throws 35558 * 19 = 675602 to Monkey 2 because divisible by 23)
@@ -137,5 +123,32 @@ Accuracy of calculation with large numbers in JavaScript?
 Using BigInt
 BigInt(675602) * BigInt(675602) = 456438062404n
 
-Since the operations are where the large nubmers occur, will use BigInt there
+Now passes 5 Rounds
+Passes 20 Rounds
+Stuck on 1000 Rounds... Way too slow...
+
+20 Rounds => 0.528 s
+100 Rounds => 0.801s
+200 Rounds => 2.686 s
+300 Rounds => 3.64 s
+600 Rounds => 55.966 s
+800 Rounds => ...
+
+
+Trying BigNumber with bignumber.js library
+1000 Rounds => 8.683 s
+10000 Rounds =>  0.764 s
+
+But precision fails...
+1000 Rounds
+Monkey 0 inspected items 5204 times. // received 5193
+Monkey 1 inspected items 4792 times. // received 4803
+Monkey 2 inspected items 199 times. // received 329
+Monkey 3 inspected items 5192 times. // received 5198
+
+...
+
+Something more precise than BigNumber, but faster than BigInt?
+
+
 ```

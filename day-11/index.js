@@ -35,4 +35,8 @@ const monkeyThree = (array) => {
 };
 
 monkeyZero([1586, 28699, 35558, 118759, 68580, 178951].map((x) => BigInt(x)));
-// monkeyTwo([675602]);
+monkeyOne([21834, 25805, 29415, 29054].map((x) => BigInt(x)));
+monkeyTwo([675602].map((x) => BigInt(x)));
+monkeyThree(
+  [30134, 545281, 2256421, 1303020, 3400069, 456438062404].map((x) => BigInt(x))
+);
