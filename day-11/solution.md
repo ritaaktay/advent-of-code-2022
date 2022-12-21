@@ -161,9 +161,9 @@ An even better solution would be to store an array per number where each index t
 N becomes [ N % X, N % Y, N % Z]
 
 When a monkey is inspecting an item, it maps this array and applies operation to all
-Then, the modulo of all are taken with respect to corresponding divisors
+[(N % X) + 5, (N % Y) + 5, (N % Z) + 5]
+Then, the modulo of all are taken again with respect to corresponding divisors
+[((N % X) + 5) % X, ((N % Y) + 5) % Y, ((N % Z) + 5) % Z]
 When making a divisibility judgement, each monkey uses the index of its own divisor
-
-[((N % X) + 5) % X, ((N % Y) + 5) % Y, ((N % Z) + 5) % Z] etc.
 
 ```
