@@ -157,6 +157,13 @@ N % X = (N % X*Y*Z) % X
 N % Y = (N % X*Y*Z) % Y
 N % Z = (N % X*Y*Z) % Z
 
-So now, when the relief function of dividing worry by 3 is removed,
-We need to replace it with another which takes worry % product of all monkey.test
+An even better solution would be to store an array per number where each index tracks a divisor
+N becomes [ N % X, N % Y, N % Z]
+
+When a monkey is inspecting an item, it maps this array and applies operation to all
+Then, the modulo of all are taken with respect to corresponding divisors
+When making a divisibility judgement, each monkey uses the index of its own divisor
+
+[((N % X) + 5) % X, ((N % Y) + 5) % Y, ((N % Z) + 5) % Z] etc.
+
 ```
