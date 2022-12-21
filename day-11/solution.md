@@ -72,11 +72,11 @@ Monkey 1 inspected items 4 times.
 Monkey 2 inspected items 3 times.
 Monkey 3 inspected items 6 times.
 
-Inspection counts after Round 20 are one off
+Inspection counts after Round 20 are off
 Monkey 0 inspected items 99 times
 Monkey 1 inspected items 97 times
-Monkey 2 inspected items 8 times // got 10 (+2)
-Monkey 3 inspected items 103 times // got 104, (+1)
+Monkey 2 inspected items 8 times // received 10 (+2)
+Monkey 3 inspected items 103 times // received 104, (+1)
 
 Round 1
 Monkey 0 - 60, 71, 81, 80 - I 2
@@ -115,7 +115,6 @@ Monkey 2 - [] - I 4
 Monkey 3 - [] - I 26
 INCORRECT
 
-(Monkey 0 throws 35558 * 19 = 675602 to Monkey 2 because divisible by 23)
 Monkey 2 calculates 675602 * 675602 as 456438062407
 When it is supposet to be 456438062404
 
@@ -123,21 +122,17 @@ Accuracy of calculation with large numbers in JavaScript?
 Using BigInt
 BigInt(675602) * BigInt(675602) = 456438062404n
 
-Now passes 5 Rounds
-Passes 20 Rounds
-Stuck on 1000 Rounds... Way too slow...
+Now passes 5 Rounds and 20 Rounds
+Stuck on 1000 Rounds...
+Way too slow...
 
 20 Rounds => 0.528 s
 100 Rounds => 0.801s
-200 Rounds => 2.686 s
-300 Rounds => 3.64 s
 600 Rounds => 55.966 s
 800 Rounds => ...
 
-
 Trying BigNumber with bignumber.js library
 1000 Rounds => 8.683 s
-10000 Rounds =>  0.764 s
 
 But precision fails...
 1000 Rounds
@@ -146,9 +141,24 @@ Monkey 1 inspected items 4792 times. // received 4803
 Monkey 2 inspected items 199 times. // received 329
 Monkey 3 inspected items 5192 times. // received 5198
 
-...
 
 Something more precise than BigNumber, but faster than BigInt?
+
+Ok, I had to learn some new things...
+Now I know the answer lies not in processing larger numbers quicker and with better precision,
+But in not processing big numbers at all and replaceing them with smaller ones that retain the
+same characteristics of the bigger one for the intended future purpose of storing that number
+
+How to conserve divisibility behaviour of N by future numbers X, Y, Z?
+Store N % LCM of X, Y, Z
+Since X, Y, Z are prime their LCM is X*Y*Z
+
+N % X = (N % X*Y*Z) % X
+N % Y = (N % X*Y*Z) % Y
+N % Z = (N % X*Y*Z) % Z
+
+So now, when the relief function of dividing worry by 3 is removed,
+We need to replace it with another which takes worry % product of all monkey.test divisors
 
 
 ```
