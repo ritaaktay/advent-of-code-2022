@@ -158,7 +158,5 @@ N % Y = (N % X*Y*Z) % Y
 N % Z = (N % X*Y*Z) % Z
 
 So now, when the relief function of dividing worry by 3 is removed,
-We need to replace it with another which takes worry % product of all monkey.test divisors
-
-
+We need to replace it with another which takes worry % product of all monkey.test
 ```
