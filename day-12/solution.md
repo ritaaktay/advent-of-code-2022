@@ -33,21 +33,10 @@ Can not move if current index - target index < -1
 Can move if current index - target index >= -1
 
 HEIGHTMAP
-
 2D array
-Each coordinate is
-{x, y}
-X is index of array
-Y is index of string in array
+Each coordinate stores
+{x: row index, y: item index, value: height value, visited: false}
 
-["S", "a", "b", "q", "p", "o", "n", "m"],
-["a", "b", "c", "r", "y", "x", "x", "l"],
-["a", "c", "c", "s", "z", "E", "x", "k"],
-["a", "c", "c", "t", "u", "v", "w", "j"],
-["a", "b", "d", "e", "f", "g", "h", "i"]
-
-Coordinate of "S" is {x: 0, y: 0}
-Coordinate of "E" is {x: 2 , y: 5}
 
 Neighbours of coordinate {x, y}
 {x-1, y} where x-1 >= 0
@@ -59,21 +48,20 @@ PATHFINDING
 
 BFS
 
-Each vertex {x, y, steps}
-Start = {x: 0, y:0, steps:0}
+queue = [{...start, steps:0}]
+current = start
+while queue.length > 0
+  current = queue.shift()
+  if current.value == end return current.steps
+  for all neighbours
+    if neighbour is visitable and not visited add to queue
+  mark current as visited
 
+BFS works for mock input but too slow for puzzle
 
-Queue = [Start]
-Visited = []
-Current = Start
+Can try DFS and Dijkstra
+Question: How to find shortest path in a non weighted graph
+IDEA: work from End to Start because there is only ONE valid approach to E according to the rules!
 
-While Queue.length > 0
-Current = Queue.shift()
-If Current == End
-If Neighbour is Visitable and Not Visited add Neighbour to Queue
-Add Current to Visited
-
-
-No need to store the path just the number of moves!
 
 ```
