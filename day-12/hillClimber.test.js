@@ -7,19 +7,22 @@ describe("HillClimber", () => {
       x: 0,
       y: 0,
       value: "S",
-      visited: false,
+      visited: true,
+      steps: 0,
     });
     expect(climber.map[2][5]).toEqual({
       x: 2,
       y: 5,
       value: "E",
       visited: false,
+      steps: Infinity,
     });
     expect(climber.map[2][6]).toEqual({
       x: 2,
       y: 6,
       value: "x",
       visited: false,
+      steps: Infinity,
     });
   });
 

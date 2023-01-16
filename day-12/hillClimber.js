@@ -7,21 +7,19 @@ class HillCLimber {
   }
 
   findShortestPath() {
-    let queue = [{ ...this.map[this.start.x][this.start.y], steps: 0 }];
+    let queue = [this.map[this.start.x][this.start.y]];
     while (queue.length > 0) {
       let current = queue.shift();
-      if (this.map[current.x][current.y].value == "E") {
-        return current.steps;
-      }
       const neighbours = this.getNeighbours(current);
       neighbours.forEach((n) => {
         if (this.isVisitable(current, n) && !n.visited) {
-          n.steps = current.steps + 1;
+          if (current.steps + 1 < n.steps) n.steps = current.steps + 1;
+          n.visited = true;
           queue.push(n);
         }
       });
-      this.map[current.x][current.y].visited = true;
     }
+    return this.map[this.end.x][this.end.y].steps;
   }
 
   getNeighbours(current) {
@@ -43,7 +41,14 @@ class HillCLimber {
     for (let x = 0; x < map.length; x++) {
       for (let y = 0; y < map[x].length; y++) {
         if (map[x][y] == "S") this.start = { x: x, y: y };
-        map[x][y] = { x: x, y: y, value: map[x][y], visited: false };
+        if (map[x][y] == "E") this.end = { x: x, y: y };
+        map[x][y] = {
+          x: x,
+          y: y,
+          value: map[x][y],
+          visited: map[x][y] == "S" ? true : false,
+          steps: map[x][y] == "S" ? 0 : Infinity,
+        };
       }
     }
     return map;
