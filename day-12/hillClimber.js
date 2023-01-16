@@ -6,20 +6,40 @@ class HillCLimber {
     this.map = this.makeMap();
   }
 
-  findShortestPath() {
-    let queue = [this.map[this.start.x][this.start.y]];
+  findShortestPathFromStart() {
+    return this.findShortestPath(this.start.x, this.start.y);
+  }
+
+  findShortestPathFromAnyA() {
+    let min = Infinity;
+    for (let x = 0; x < this.map.length; x++) {
+      for (let y = 0; y < this.map[x].length; y++) {
+        if (this.map[x][y].value == "a" || this.map[x][y].value == "S") {
+          this.resetMap();
+          const path = this.findShortestPath(x, y);
+          if (path < min) min = path;
+        }
+      }
+    }
+    return min;
+  }
+
+  findShortestPath(x, y) {
+    this.map[x][y].visited = true;
+    this.map[x][y].steps = 0;
+    let queue = [this.map[x][y]];
     while (queue.length > 0) {
       let current = queue.shift();
+      if (current.value == "E") return current.steps;
       const neighbours = this.getNeighbours(current);
       neighbours.forEach((n) => {
         if (this.isVisitable(current, n) && !n.visited) {
-          if (current.steps + 1 < n.steps) n.steps = current.steps + 1;
+          n.steps = current.steps + 1;
           n.visited = true;
           queue.push(n);
         }
       });
     }
-    return this.map[this.end.x][this.end.y].steps;
   }
 
   getNeighbours(current) {
@@ -35,6 +55,15 @@ class HillCLimber {
     return neighbours;
   }
 
+  resetMap() {
+    for (let x = 0; x < this.map.length; x++) {
+      for (let y = 0; y < this.map[x].length; y++) {
+        this.map[x][y].visited = false;
+        this.map[x][y].steps = Infinity;
+      }
+    }
+  }
+
   makeMap() {
     const lines = readFileSync(this.path).toString().split("\n");
     let map = lines.slice(0, lines.length - 1).map((row) => row.split(""));
@@ -46,8 +75,8 @@ class HillCLimber {
           x: x,
           y: y,
           value: map[x][y],
-          visited: map[x][y] == "S" ? true : false,
-          steps: map[x][y] == "S" ? 0 : Infinity,
+          visited: false,
+          steps: Infinity,
         };
       }
     }

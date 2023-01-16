@@ -7,8 +7,8 @@ describe("HillClimber", () => {
       x: 0,
       y: 0,
       value: "S",
-      visited: true,
-      steps: 0,
+      visited: false,
+      steps: Infinity,
     });
     expect(climber.map[2][5]).toEqual({
       x: 2,
@@ -33,6 +33,11 @@ describe("HillClimber", () => {
 
   it("Does a BFS traversal", () => {
     const climber = new HillCLimber("./day-12/mock.txt");
-    expect(climber.findShortestPath()).toEqual(31);
+    expect(climber.findShortestPathFromStart()).toEqual(31);
+  });
+
+  it("Finds shortest path from any point 'a'", () => {
+    const climber = new HillCLimber("./day-12/mock.txt");
+    expect(climber.findShortestPathFromAnyA()).toEqual(29);
   });
 });

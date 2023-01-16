@@ -57,11 +57,22 @@ while queue.length > 0
     if neighbour is visitable and not visited add to queue
   mark current as visited
 
-BFS works for mock input but too slow for puzzle
+Works for mock input but too slow for puzzle
 Bug: I am marking visited only after node is processed as current, should mark as visited once added to queue. Otherwise, a node that is the neighbour of multiple nodes (all nodes in a matrix) gets added and therefore visited multiple times. If I mark a node as visited when adding to queue, next time it is being considered, it will not be added twice. If order of queue is order of visits, a node being added first means it will be visited first, so I don't need to wait until time of actual visit to mark as visited, it preserves order.
 
-"BFS has no way of knowing if a particular discovery of a node would give us the shortest path to that node. And so, the only possible way for BFS (or DFS) to find the shortest path in a weighted graph is to search the entire graph and keep recording the minimum distance from source to the destination vertex."
-So, I set steps to Infinity and say neighbour steps is equal to current steps + 1 if current steps + 1 is less than enighbour steps. If a shorter path has been discovered, no need to overwrite it with the longer path. After all options have been explored (the graph has been traversed) I read the steps of the end node.
-
-
+BFS is the right algorithm for finding the shortest path to a target node in a NON-WEIGHTED GRAPH.
+IN A NON-WEIGHTED GRAPH, the first time BFS reaches a target node, it will be the shortest path. It expands in al directions at once, and when the target is reached, it will have been the quickest way to get there. So with BFS I can return the steps to current node as soon as current node is target node, and record steps to neighbour nodes as current node + 1, because neighbour gets added only if yet not added, so at the point which it is being added, it will be the shortest route to that neighbour, and will not be visited twice.
+IN A WEIGHTED GRAPH OR WITH DFS, I would have to explore all routes, overwrite memory with the shorter path on repeat encounters of the same node and read the path to the target node after traversing entire graph.
 ```
+
+--- PART 1 ---
+
+Use Part 1 to calculate shortest path from all squares "a" to end point "E" and pick the shortest
+
+Results = []
+For each node
+If node value is "a" OR "S"
+Add findShortestPath() for node to results
+Select min of results
+
+Modify findShortestPath(x, y) so it takes the start node coordinates as args!
