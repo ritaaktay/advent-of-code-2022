@@ -10,9 +10,7 @@ class SignalChecker {
     let sum = 0;
     this.data.forEach((pair, i) => {
       const [l, r] = pair;
-      if (this.isInOrder(l, r)) {
-        sum += i + 1;
-      }
+      if (this.isInOrder(l, r)) sum += i + 1;
     });
     return sum;
   }
@@ -46,32 +44,7 @@ class SignalChecker {
     for (let i = 0; i < lines.length; i += 2) {
       pairs.push([lines[i], lines[i + 1]]);
     }
-    return pairs.map((p) => p.map((s) => this.makeArray(s)));
-  }
-
-  makeArray(str) {
-    const array = [];
-    let i = 1;
-    while (i < str.length - 1) {
-      if (str[i] == "[") {
-        const sub = this.getSubString(str, i);
-        array.push(this.makeArray(sub));
-        i = i + sub.length;
-      } else {
-        if (str[i] != ",") array.push(parseInt(str[i]));
-        i++;
-      }
-    }
-    return array;
-  }
-
-  getSubString(str, start) {
-    let match = 1;
-    for (let i = start + 1; i < str.length; i++) {
-      if (str[i] == "[") match++;
-      if (str[i] == "]") match--;
-      if (match == 0) return str.substring(start, i + 1);
-    }
+    return pairs.map((p) => p.map((s) => JSON.parse(s)));
   }
 }
 
