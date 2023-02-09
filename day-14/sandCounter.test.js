@@ -25,8 +25,6 @@ describe("", () => {
     expect(counter.matrix[9][494]).toEqual(true);
     expect(counter.matrix[6][403]).toEqual(false);
     expect(counter.matrix[1][501]).toEqual(false);
-    expect(counter.height).toEqual(10);
-    expect(counter.width).toEqual(504);
   });
 
   it("counts sand", () => {

@@ -13,15 +13,14 @@ class SandCounter {
     while (this.getAvailableMove(curr)) {
       curr = this.getAvailableMove(curr);
     }
-    if (curr[0] >= this.height - 1) return this.sand;
+    if (curr[0] == this.height) return this.sand;
     this.matrix[curr[0]][curr[1]] = true;
     this.sand++;
     return this.count();
   }
 
   getAvailableMove(curr) {
-    console.log(curr[0]);
-    if (curr[0] >= this.height - 1) return false;
+    if (curr[0] == this.height) return false;
     if (this.isAvailable(curr[0] + 1, curr[1])) {
       return [curr[0] + 1, curr[1]];
     } else if (this.isAvailable(curr[0] + 1, curr[1] - 1)) {
@@ -49,11 +48,11 @@ class SandCounter {
       )
     );
     const blocked = lines.map((line) => this.expand(line)).flat();
-    this.height = Math.max(...blocked.map((rock) => rock[1])) + 1;
-    this.width = Math.max(...blocked.map((rock) => rock[0])) + 1;
-    const matrix = new Array(this.height)
+    this.height = Math.max(...blocked.map((rock) => rock[1]));
+    this.width = Math.max(...blocked.map((rock) => rock[0]));
+    const matrix = new Array(this.height + 1)
       .fill(0)
-      .map(() => new Array(this.width).fill(0).map(() => false));
+      .map(() => new Array(this.width + 1).fill(0).map(() => false));
     blocked.forEach((rock) => {
       matrix[rock[1]][rock[0]] = true;
     });
