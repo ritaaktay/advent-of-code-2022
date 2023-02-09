@@ -1,5 +1,4 @@
 const { readFileSync } = require("fs");
-const { cursorTo } = require("readline");
 
 class SandCounter {
   constructor(path) {
@@ -12,28 +11,21 @@ class SandCounter {
     let curr = [0, 500];
     while (this.getAvailableMove(curr)) {
       curr = this.getAvailableMove(curr);
+      if (curr[0] == this.height) return this.sand;
     }
-    if (curr[0] == this.height) return this.sand;
     this.matrix[curr[0]][curr[1]] = true;
     this.sand++;
     return this.count();
   }
 
   getAvailableMove(curr) {
-    if (curr[0] == this.height) return false;
-    if (this.isAvailable(curr[0] + 1, curr[1])) {
+    if (!this.matrix[curr[0] + 1][curr[1]]) {
       return [curr[0] + 1, curr[1]];
-    } else if (this.isAvailable(curr[0] + 1, curr[1] - 1)) {
+    } else if (!this.matrix[curr[0] + 1][curr[1] - 1]) {
       return [curr[0] + 1, curr[1] - 1];
-    } else if (this.isAvailable(curr[0] + 1, curr[1] + 1)) {
+    } else if (!this.matrix[curr[0] + 1][curr[1] + 1]) {
       return [curr[0] + 1, curr[1] + 1];
-    } else {
-      return false;
-    }
-  }
-
-  isAvailable(y, x) {
-    return !this.matrix[y][x];
+    } else return false;
   }
 
   parse() {
@@ -47,19 +39,19 @@ class SandCounter {
           .map((i) => parseInt(i))
       )
     );
-    const blocked = lines.map((line) => this.expand(line)).flat();
-    this.height = Math.max(...blocked.map((rock) => rock[1]));
-    this.width = Math.max(...blocked.map((rock) => rock[0]));
+    const rocks = lines.map((line) => this.draw(line)).flat();
+    this.height = Math.max(...rocks.map((rock) => rock[1]));
+    this.width = Math.max(...rocks.map((rock) => rock[0]));
     const matrix = new Array(this.height + 1)
       .fill(0)
       .map(() => new Array(this.width + 1).fill(0).map(() => false));
-    blocked.forEach((rock) => {
+    rocks.forEach((rock) => {
       matrix[rock[1]][rock[0]] = true;
     });
     return matrix;
   }
 
-  expand(line) {
+  draw(line) {
     const drawn = [line[0]];
     for (let i = 0; i < line.length - 1; i++) {
       const start = line[i];
