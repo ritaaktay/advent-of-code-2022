@@ -3,31 +3,30 @@ const SandCounter = require("./sandCounter");
 describe("", () => {
   it("parses rocks", () => {
     const counter = new SandCounter("./day-14/mock.txt");
-    expect(JSON.stringify(counter.blocked)).toEqual(
-      JSON.stringify([
-        [498, 4],
-        [498, 5],
-        [498, 6],
-        [496, 6],
-        [497, 6],
-        [503, 4],
-        [502, 4],
-        [502, 5],
-        [502, 6],
-        [502, 7],
-        [502, 8],
-        [502, 9],
-        [494, 9],
-        [495, 9],
-        [496, 9],
-        [497, 9],
-        [498, 9],
-        [499, 9],
-        [500, 9],
-        [501, 9],
-      ])
-    );
-    expect(counter.greatest).toEqual(9);
+    expect(counter.matrix[4][498]).toEqual(true);
+    expect(counter.matrix[5][498]).toEqual(true);
+    expect(counter.matrix[6][498]).toEqual(true);
+    expect(counter.matrix[6][497]).toEqual(true);
+    expect(counter.matrix[6][496]).toEqual(true);
+    expect(counter.matrix[4][503]).toEqual(true);
+    expect(counter.matrix[4][502]).toEqual(true);
+    expect(counter.matrix[5][502]).toEqual(true);
+    expect(counter.matrix[6][502]).toEqual(true);
+    expect(counter.matrix[7][502]).toEqual(true);
+    expect(counter.matrix[8][502]).toEqual(true);
+    expect(counter.matrix[9][502]).toEqual(true);
+    expect(counter.matrix[9][501]).toEqual(true);
+    expect(counter.matrix[9][500]).toEqual(true);
+    expect(counter.matrix[9][499]).toEqual(true);
+    expect(counter.matrix[9][498]).toEqual(true);
+    expect(counter.matrix[9][497]).toEqual(true);
+    expect(counter.matrix[9][496]).toEqual(true);
+    expect(counter.matrix[9][495]).toEqual(true);
+    expect(counter.matrix[9][494]).toEqual(true);
+    expect(counter.matrix[6][403]).toEqual(false);
+    expect(counter.matrix[1][501]).toEqual(false);
+    expect(counter.height).toEqual(10);
+    expect(counter.width).toEqual(504);
   });
 
   it("counts sand", () => {

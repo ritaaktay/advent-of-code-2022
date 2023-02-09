@@ -1,44 +1,40 @@
 const { readFileSync } = require("fs");
+const { cursorTo } = require("readline");
 
 class SandCounter {
   constructor(path) {
     this.path = path;
-    this.blocked = this.parse();
-    this.greatest = Math.max(...this.blocked.map((rock) => rock[1]));
+    this.matrix = this.parse();
     this.sand = 0;
   }
 
   count() {
-    let curr = [500, 0];
+    let curr = [0, 500];
     while (this.getAvailableMove(curr)) {
       curr = this.getAvailableMove(curr);
     }
-    if (curr[1] + 1 > this.greatest) return this.sand;
-    this.blocked.push(curr);
+    if (curr[0] >= this.height - 1) return this.sand;
+    this.matrix[curr[0]][curr[1]] = true;
     this.sand++;
     return this.count();
   }
 
   getAvailableMove(curr) {
-    if (curr[1] + 1 > this.greatest) return false;
-    if (this.isAvailable([curr[0], curr[1] + 1])) {
-      return [curr[0], curr[1] + 1];
-    } else if (this.isAvailable([curr[0] - 1, curr[1] + 1])) {
-      return [curr[0] - 1, curr[1] + 1];
-    } else if (this.isAvailable([curr[0] + 1, curr[1] + 1])) {
+    console.log(curr[0]);
+    if (curr[0] >= this.height - 1) return false;
+    if (this.isAvailable(curr[0] + 1, curr[1])) {
+      return [curr[0] + 1, curr[1]];
+    } else if (this.isAvailable(curr[0] + 1, curr[1] - 1)) {
+      return [curr[0] + 1, curr[1] - 1];
+    } else if (this.isAvailable(curr[0] + 1, curr[1] + 1)) {
       return [curr[0] + 1, curr[1] + 1];
     } else {
       return false;
     }
   }
 
-  isAvailable(point) {
-    for (let i = 0; i < this.blocked.length; i++) {
-      if (JSON.stringify(this.blocked[i]) == JSON.stringify(point)) {
-        return false;
-      }
-    }
-    return true;
+  isAvailable(y, x) {
+    return !this.matrix[y][x];
   }
 
   parse() {
@@ -52,7 +48,16 @@ class SandCounter {
           .map((i) => parseInt(i))
       )
     );
-    return lines.map((line) => this.expand(line)).flat();
+    const blocked = lines.map((line) => this.expand(line)).flat();
+    this.height = Math.max(...blocked.map((rock) => rock[1])) + 1;
+    this.width = Math.max(...blocked.map((rock) => rock[0])) + 1;
+    const matrix = new Array(this.height)
+      .fill(0)
+      .map(() => new Array(this.width).fill(0).map(() => false));
+    blocked.forEach((rock) => {
+      matrix[rock[1]][rock[0]] = true;
+    });
+    return matrix;
   }
 
   expand(line) {
