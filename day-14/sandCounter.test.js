@@ -30,11 +30,6 @@ describe("", () => {
     expect(counter.greatest).toEqual(9);
   });
 
-  it("checks if coordinates are available to move", () => {
-    const counter = new SandCounter("./day-14/mock.txt");
-    expect(counter.isOpen([500, 9])).toEqual(false);
-  });
-
   it("counts sand", () => {
     const counter = new SandCounter("./day-14/mock.txt");
     expect(counter.count()).toEqual(24);

@@ -1,4 +1,7 @@
 --- Day 14: Regolith Reservoir ---
+
+Ok so my idea is to skip creating a 2D array and just work with storing blocked coordinates in single array. For moving sand, I'll check if that coordinate is in the array, and if not, keep the sand moving untill it comes to rest, at which point I'll add it to the blocked array and increment sand count. When a sand move exceeds the greatest Y coordinate of a rock (which means sand has started falling into the abyss) I'll return the sand count.
+
 Store rock coordinates in an array, with each stone represented by an array of length two, index O as X coordinate and index 1 as Y cooridnate
 
 498,4 -> 498,6 -> 496,6
@@ -57,3 +60,5 @@ If current[0]+1 is greater than the rock with the greatest X coordinate
 
 How to find the rock with the greatest X coordinate?
 forEach if rock[0] > greatest, greatest = rock[0]
+
+Recursion was exceeding call stack size, so separated checking available moves untill rest (used a while loop that overwrites a location variable) from dropping another grain of sand (recursive call). Now stack is not blown but really slow and slows down massivley around 600-700... How can I speed this up?

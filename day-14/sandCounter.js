@@ -1,35 +1,38 @@
 const { readFileSync } = require("fs");
 
-class SignalChecker {
+class SandCounter {
   constructor(path) {
     this.path = path;
     this.blocked = this.parse();
-    this.greatest = this.getGreatest(this.blocked);
+    this.greatest = Math.max(...this.blocked.map((rock) => rock[1]));
+    this.sand = 0;
   }
 
   count() {
-    return this.move([500, 0], 0);
+    let curr = [500, 0];
+    while (this.getAvailableMove(curr)) {
+      curr = this.getAvailableMove(curr);
+    }
+    if (curr[1] + 1 > this.greatest) return this.sand;
+    this.blocked.push(curr);
+    this.sand++;
+    return this.count();
   }
 
-  move(curr, count) {
-    if (curr[1] + 1 > this.greatest) {
-      console.log(count);
-      return count;
-    }
-    if (this.isOpen([curr[0], curr[1] + 1])) {
-      return this.move([curr[0], curr[1] + 1], count);
-    } else if (this.isOpen([curr[0] - 1, curr[1] + 1])) {
-      return this.move([curr[0] - 1, curr[1] + 1], count);
-    } else if (this.isOpen([curr[0] + 1, curr[1] + 1])) {
-      return this.move([curr[0] + 1, curr[1] + 1], count);
+  getAvailableMove(curr) {
+    if (curr[1] + 1 > this.greatest) return false;
+    if (this.isAvailable([curr[0], curr[1] + 1])) {
+      return [curr[0], curr[1] + 1];
+    } else if (this.isAvailable([curr[0] - 1, curr[1] + 1])) {
+      return [curr[0] - 1, curr[1] + 1];
+    } else if (this.isAvailable([curr[0] + 1, curr[1] + 1])) {
+      return [curr[0] + 1, curr[1] + 1];
     } else {
-      this.blocked.push(curr);
-      count++;
-      return this.move([500, 0], count);
+      return false;
     }
   }
 
-  isOpen(point) {
+  isAvailable(point) {
     for (let i = 0; i < this.blocked.length; i++) {
       if (JSON.stringify(this.blocked[i]) == JSON.stringify(point)) {
         return false;
@@ -50,11 +53,6 @@ class SignalChecker {
       )
     );
     return lines.map((line) => this.expand(line)).flat();
-  }
-
-  getGreatest(rocks) {
-    const y = rocks.map((rock) => rock[1]);
-    return Math.max(...y);
   }
 
   expand(line) {
@@ -88,4 +86,4 @@ class SignalChecker {
   }
 }
 
-module.exports = SignalChecker;
+module.exports = SandCounter;
