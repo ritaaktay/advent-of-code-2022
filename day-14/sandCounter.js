@@ -31,20 +31,15 @@ class SandCounter {
   parse() {
     const data = readFileSync(this.path).toString().split("\n");
     data.pop();
-    const lines = data.map((line) =>
-      line.split("->").map((num) =>
-        num
-          .trim()
-          .split(",")
-          .map((i) => parseInt(i))
-      )
+    const lines = data.map((row) =>
+      row.split("->").map((line) => line.split(",").map((i) => parseInt(i)))
     );
     const rocks = lines.map((line) => this.draw(line)).flat();
     this.height = Math.max(...rocks.map((rock) => rock[1]));
     this.width = Math.max(...rocks.map((rock) => rock[0]));
     const matrix = new Array(this.height + 1)
-      .fill(0)
-      .map(() => new Array(this.width + 1).fill(0).map(() => false));
+      .fill()
+      .map(() => new Array(this.width + 1).fill().map(() => false));
     rocks.forEach((rock) => {
       matrix[rock[1]][rock[0]] = true;
     });
