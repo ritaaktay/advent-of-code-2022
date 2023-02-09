@@ -4,6 +4,38 @@ class SignalChecker {
   constructor(path) {
     this.path = path;
     this.blocked = this.parse();
+    this.greatest = this.getGreatest(this.blocked);
+  }
+
+  count() {
+    return this.move([500, 0], 0);
+  }
+
+  move(curr, count) {
+    if (curr[1] + 1 > this.greatest) {
+      console.log(count);
+      return count;
+    }
+    if (this.isOpen([curr[0], curr[1] + 1])) {
+      return this.move([curr[0], curr[1] + 1], count);
+    } else if (this.isOpen([curr[0] - 1, curr[1] + 1])) {
+      return this.move([curr[0] - 1, curr[1] + 1], count);
+    } else if (this.isOpen([curr[0] + 1, curr[1] + 1])) {
+      return this.move([curr[0] + 1, curr[1] + 1], count);
+    } else {
+      this.blocked.push(curr);
+      count++;
+      return this.move([500, 0], count);
+    }
+  }
+
+  isOpen(point) {
+    for (let i = 0; i < this.blocked.length; i++) {
+      if (JSON.stringify(this.blocked[i]) == JSON.stringify(point)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   parse() {
@@ -18,6 +50,11 @@ class SignalChecker {
       )
     );
     return lines.map((line) => this.expand(line)).flat();
+  }
+
+  getGreatest(rocks) {
+    const y = rocks.map((rock) => rock[1]);
+    return Math.max(...y);
   }
 
   expand(line) {

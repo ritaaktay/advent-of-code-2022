@@ -1,7 +1,7 @@
 const SandCounter = require("./sandCounter");
 
 describe("", () => {
-  it("compares a pair", () => {
+  it("parses rocks", () => {
     const counter = new SandCounter("./day-14/mock.txt");
     expect(JSON.stringify(counter.blocked)).toEqual(
       JSON.stringify([
@@ -27,5 +27,16 @@ describe("", () => {
         [501, 9],
       ])
     );
+    expect(counter.greatest).toEqual(9);
+  });
+
+  it("checks if coordinates are available to move", () => {
+    const counter = new SandCounter("./day-14/mock.txt");
+    expect(counter.isOpen([500, 9])).toEqual(false);
+  });
+
+  it("counts sand", () => {
+    const counter = new SandCounter("./day-14/mock.txt");
+    expect(counter.count()).toEqual(24);
   });
 });
