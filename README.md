@@ -17,6 +17,6 @@ Focusing on TDD, currently using JavaScript for speed and might switch to TypeSc
 [Day 11 - Monkey in the Middle](https://adventofcode.com/2022/day/11) ⭐⭐\
 [Day 12 - Hill Climbing Algorithm](https://adventofcode.com/2022/day/12) ⭐⭐\
 [Day 13 - Distress Signal](https://adventofcode.com/2022/day/13) ⭐⭐\
-[Day 14 - Regolith Reservoir](https://adventofcode.com/2022/day/14) ⭐
+[Day 14 - Regolith Reservoir](https://adventofcode.com/2022/day/14) ⭐⭐\
 
 Thank you [Eric Wastl](http://was.tl/), who writes these fun puzzles for all of us to enjoy!

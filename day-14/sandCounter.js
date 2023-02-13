@@ -42,10 +42,8 @@ class SandCounter {
 
   makeMatrix() {
     const rocks = this.parse();
-    const maxY = Math.max(...rocks.map((rock) => rock[1]));
-    this.height = this.floor ? maxY + 2 : maxY;
-    const maxX = Math.max(...rocks.map((rock) => rock[0]));
-    this.width = maxX * 2;
+    this.height = Math.max(...rocks.map((rock) => rock[1])) + 2;
+    this.width = Math.max(...rocks.map((rock) => rock[0])) * 2;
     const matrix = new Array(this.height + 1)
       .fill()
       .map(() => new Array(this.width + 1).fill().map(() => false));
