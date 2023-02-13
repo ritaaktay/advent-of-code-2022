@@ -1,21 +1,22 @@
 const { readFileSync } = require("fs");
 
 class SandCounter {
-  constructor(path) {
+  constructor(path, floor) {
+    this.floor = floor;
     this.path = path;
-    this.matrix = this.parse();
-    this.sand = 0;
+    this.matrix = this.makeMatrix();
   }
 
-  count() {
+  count(sand = 0) {
     let curr = [0, 500];
     while (this.getAvailableMove(curr)) {
       curr = this.getAvailableMove(curr);
-      if (curr[0] == this.height) return this.sand;
+      if (curr[0] == this.height) return sand;
     }
     this.matrix[curr[0]][curr[1]] = true;
-    this.sand++;
-    return this.count();
+    sand++;
+    if (curr[0] == 0 && curr[1] == 500) return sand;
+    return this.count(sand);
   }
 
   getAvailableMove(curr) {
@@ -28,22 +29,36 @@ class SandCounter {
     } else return false;
   }
 
-  parse() {
-    const data = readFileSync(this.path).toString().split("\n");
-    data.pop();
-    const lines = data.map((row) =>
-      row.split("->").map((line) => line.split(",").map((i) => parseInt(i)))
-    );
-    const rocks = lines.map((line) => this.draw(line)).flat();
-    this.height = Math.max(...rocks.map((rock) => rock[1]));
-    this.width = Math.max(...rocks.map((rock) => rock[0]));
+  makeMatrix() {
+    const rocks = this.parse();
+    const maxY = Math.max(...rocks.map((rock) => rock[1]));
+    this.height = this.floor ? maxY + 2 : maxY;
+    const maxX = Math.max(...rocks.map((rock) => rock[0]));
+    this.width = maxX * 2;
     const matrix = new Array(this.height + 1)
       .fill()
       .map(() => new Array(this.width + 1).fill().map(() => false));
     rocks.forEach((rock) => {
       matrix[rock[1]][rock[0]] = true;
     });
+    if (this.floor) return this.addFloor(matrix);
     return matrix;
+  }
+
+  addFloor(matrix) {
+    for (let i = -this.width; i <= this.width; i++) {
+      matrix[this.height][i] = true;
+    }
+    return matrix;
+  }
+
+  parse() {
+    const data = readFileSync(this.path).toString().split("\n");
+    data.pop();
+    const lines = data.map((row) =>
+      row.split("->").map((line) => line.split(",").map((i) => parseInt(i)))
+    );
+    return lines.map((line) => this.draw(line)).flat();
   }
 
   draw(line) {
