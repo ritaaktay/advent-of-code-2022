@@ -55,7 +55,7 @@ class SandCounter {
   }
 
   addFloor(matrix) {
-    for (let i = -this.width; i <= this.width; i++) {
+    for (let i = 0; i <= this.width; i++) {
       matrix[this.height][i] = true;
     }
     return matrix;
