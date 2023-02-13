@@ -7,16 +7,27 @@ class SandCounter {
     this.matrix = this.makeMatrix();
   }
 
-  count(sand = 0) {
+  simulate() {
+    let sand = this.drop();
+    let count = 1;
+    while (
+      sand[0] < this.height &&
+      JSON.stringify(sand) != JSON.stringify([0, 500])
+    ) {
+      sand = this.drop();
+      if (sand[0] < this.height) count++;
+    }
+    return count;
+  }
+
+  drop() {
     let curr = [0, 500];
     while (this.getAvailableMove(curr)) {
       curr = this.getAvailableMove(curr);
-      if (curr[0] == this.height) return sand;
+      if (curr[0] == this.height) return curr;
     }
     this.matrix[curr[0]][curr[1]] = true;
-    sand++;
-    if (curr[0] == 0 && curr[1] == 500) return sand;
-    return this.count(sand);
+    return curr;
   }
 
   getAvailableMove(curr) {

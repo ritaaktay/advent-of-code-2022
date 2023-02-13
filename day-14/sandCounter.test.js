@@ -29,11 +29,11 @@ describe("", () => {
 
   it("counts sand", () => {
     const counter = new SandCounter("./day-14/mock.txt", false);
-    expect(counter.count()).toEqual(24);
+    expect(counter.simulate()).toEqual(24);
   });
 
   it("counts sand with floor", () => {
     const counter = new SandCounter("./day-14/mock.txt", true);
-    expect(counter.count()).toEqual(93);
+    expect(counter.simulate()).toEqual(93);
   });
 });

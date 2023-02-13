@@ -1,3 +1,5 @@
 const SandCounter = require("./sandCounter");
-const counter = new SandCounter("./day-14/input.txt");
-console.log("Part 1: ", counter.count());
+const counterOne = new SandCounter("./day-14/input.txt", false);
+console.log("Part 1: ", counterOne.simulate());
+const counterTwo = new SandCounter("./day-14/input.txt", true);
+console.log("Part 2: ", counterTwo.simulate());
