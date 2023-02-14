@@ -57,3 +57,62 @@ Narrowing down scanners under consideration would be to find the max range of an
 Per Scanner, we can calculate what indices of Row R will be within it's scan zone, and concatenate them in an array by not adding any duplicates to reduce size
 
 We can filter out the Row R of the original data set and remove any indices that overlap with Scanners or Beacons, then get the length of the array as our answer
+
+Ok, but still too slow because I loop over each index in the Amount and there are over 100,000 ...
+
+A way to avoid loops would be to calculate the start and end indices of the scan zone, based on the Amount, and store per scanner. Then, I can see where there are overlaps and concatenate them. Once all overlaps have been removed I can get the total amount of indices.
+
+So I will map over each scanner that is within the max range of the row, and per scanner return an array that stores the Start and End X-indices of its scan range for that row.
+
+The overlap concatenating algorithm will:
+Start by placing the first of the ranges in a concatenated array
+Loop over the remaining ranges, and per range, see if ANY of the ranges in the concatenated array has overlap.
+For those which have overlap, it will REPLACE that range with a joined version
+For those that don't have overlap, it will PUSH the range into the concatenated array
+At the end, the concatenated array will have only unique, non ovelrapping start-end indices for the scan ranges, from which the total unique indices can be calculated
+
+Overlap drawings:
+
+a.....----------  
+b..-------
+
+a....-----------
+b....------
+
+a....-----------
+b....-----------
+
+startB <= startA && endB <= endA && endB > startA
+
+a....--------
+b.......----------
+
+a....--------
+b....-------------
+
+a....----------
+b....----------
+
+startA <= startB && endA <= endB && endA > startB
+
+[firstStart, firstEnd] = a[0] > b[0] ? b : a
+[secondStart, secondEnd] = a[0] <= b[0] ? b : a
+Expressed this way it factors for when they might be equal, placing one as first and THE OTHER as second
+
+firstStart <= secondStart && firstEnd <= secondEnd && firstEnd >= secondStart
+
+a...------------
+b.....------
+
+a.......----
+b....-------------
+
+firstStart <= secondStart && firstEnd >= secondEnd
+
+firstStart <= secondStart --- this part is covered by the logic that labels them as first and second
+
+and I need to keep the two conditions separate so that I can concat differently
+
+if (firstEnd <= secondEnd && firstEnd >= secondStart) return [firstStart, secondEnd]
+if (firstEnd >= secondEnd) return [firstStart, firstEnd]
+else return false
