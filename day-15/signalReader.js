@@ -1,25 +1,37 @@
 const { readFileSync } = require("fs");
 
 class SignalReader {
-  constructor(path, y) {
+  constructor(path) {
     this.path = path;
-    this.y = y;
     this.data = this.parse();
   }
 
-  calculate() {
-    const scanned = this.getScannersInMaxRange()
-      .map((s) => this.getScanRange(s))
-      .filter((r) => r != 0);
-    const joined = this.joinRanges(scanned);
-    const lengths = joined.map((range) => range[1] - range[0] + 1);
-    const beacons = this.getBeaconCount(joined);
+  findBeacon() {
+    for (let i = 0; i <= 4000000; i++) {
+      const ranges = this.getRangesForRow(i);
+      if (ranges.length == 2) {
+        return;
+      }
+    }
+  }
+
+  calculate(y) {
+    const ranges = this.getRangesForRow(y);
+    const lengths = ranges.map((range) => range[1] - range[0] + 1);
+    const beacons = this.getBeaconCount(ranges, y);
     return lengths.reduce((a, b) => a + b, 0) - beacons;
   }
 
-  getScanRange(s) {
+  getRangesForRow(y) {
+    const scanned = this.getScannersInMaxRange(y)
+      .map((s) => this.getScanRange(s, y))
+      .filter((r) => r != 0);
+    return this.joinRanges(scanned);
+  }
+
+  getScanRange(s, y) {
     const range = s[4];
-    const distance = Math.abs(this.y - s[1]);
+    const distance = Math.abs(y - s[1]);
     const amount = range * 2 + 1 - distance * 2;
     const start = s[0] - range + distance;
     if (amount <= 0) return 0;
@@ -27,16 +39,20 @@ class SignalReader {
   }
 
   joinRanges(ranges) {
-    const concatenated = [ranges[0]];
+    const unique = [ranges[0]];
     for (let i = 1; i < ranges.length; i++) {
-      concatenated.forEach((c, x) => {
-        const overlap = this.overlap(ranges[i], c);
-        if (overlap) concatenated[x] = overlap;
-        else concatenated.push(ranges[i]);
-      });
+      let added = false;
+      for (let x = 0; x < unique.length; x++) {
+        const overlap = this.overlap(ranges[i], unique[x]);
+        if (overlap) {
+          unique[x] = overlap;
+          added = true;
+        }
+      }
+      if (!added) unique.push(ranges[i]);
     }
-    if (this.noneOverlap(concatenated)) return concatenated;
-    return this.joinRanges(concatenated);
+    if (this.noneOverlap(unique)) return unique;
+    return this.joinRanges(unique);
   }
 
   noneOverlap(ranges) {
@@ -59,11 +75,11 @@ class SignalReader {
     return false;
   }
 
-  getBeaconCount(ranges) {
+  getBeaconCount(ranges, y) {
     const beacons = [];
-    this.getRow().forEach((x) => {
+    this.getRow(y).forEach((x) => {
       for (let i = 0; i < ranges.length; i++) {
-        if (ranges[i][0] < x[2] && ranges[i][1] > x[2] && x[3] == this.y) {
+        if (ranges[i][0] < x[2] && ranges[i][1] > x[2] && x[3] == y) {
           beacons.push(x[2]);
           return;
         }
@@ -72,18 +88,16 @@ class SignalReader {
     return [...new Set(beacons)].length;
   }
 
-  getScannersInMaxRange() {
+  getScannersInMaxRange(y) {
     const max = Math.max(...this.data.map((c) => c[4]));
-    return this.data.filter(
-      (c) => c[1] <= this.y + max && c[1] >= this.y - max
-    );
+    return this.data.filter((c) => c[1] <= y + max && c[1] >= y - max);
   }
 
-  getRow(y = this.y) {
-    return this.data.filter((c) => c[1] == this.y || c[3] == y);
+  getRow(y) {
+    return this.data.filter((c) => c[1] == y || c[3] == y);
   }
 
-  parse(y) {
+  parse() {
     const data = readFileSync(this.path).toString().trim().split("\n");
     const coordinates = data.map((line) => {
       return line

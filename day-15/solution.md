@@ -1,3 +1,5 @@
+--- Part Two ---
+
 Parsed input to store each signal reader & beacon as an array, where index 0 & 1 are signal reader x & y, and index 2 & 3 are beacon x & y
 
 [2, 18, -2, 15],
@@ -139,3 +141,31 @@ The same overlap function used in the concatenating function is used to check if
 The removal of the Beacons within the final range happens by calculating which Beacons in the specified Row have an x index that falls within the concatenated range. This beacon count is stored to be removed from the final length calculation.
 
 The final calculation converts the Ranges - that were expressed as Start and End indices - into lengths with inclusive indices, totals them, and removes the beacon count.
+
+--- Part Two ---
+
+Are under consideration is between 0 < x < 4000000 and 0 < y < 4000000 coordinates.
+
+There will be only one slot in this entire range that can have a beacon. This means,
+If I go row by row and apply the previous calculation, the stage where the scanning ranges
+are concatenated will have all rows with a single range, except one, which will have two ranges, the exluded indices being the one with the distress beacon.
+
+But I can not loop through 4000000 rows? ...
+
+Bug in the concatenation recursion, there is a concatenated range array
+[
+[ -3, 13 ],
+[ 15, 25 ],
+[ 15, 25 ],
+[ 15, 25 ],
+[ 15, 17 ],
+[ 15, 17 ],
+[ 15, 17 ]
+]
+Which the noneOverlap function returns false for, as some points are overlapping, but the concatenating function cannot concatenate any further... Which creates an infinite recursion.
+
+Bug fix:
+Add into the concatenated array only if the range in question does not overlap with ANY of the ranges already in the concatenated array.
+
+The buggy version was pushing for as many times as it did not detect and overlap between the range in question and ONE of the ranges in the
+concatenated array, creating double and tripple pushes.
