@@ -8,7 +8,7 @@ describe("", () => {
 
   it("calculates scan range of a scanner on the row in question", () => {
     const reader = new SignalReader("./day-15/mock.txt", 10);
-    expect(reader.getScan([8, 7, 2, 10, 9])).toEqual([2, 14]);
+    expect(reader.getScanRange([8, 7, 2, 10, 9])).toEqual([2, 14]);
   });
 
   it("concats ranges to remove overlaps", () => {
@@ -21,8 +21,7 @@ describe("", () => {
       [16, 24],
       [14, 18],
     ];
-    const result = reader.concat(ranges);
-    console.log(result);
+    const result = reader.joinRanges(ranges);
     expect(result).toEqual([[-2, 24]]);
   });
 
@@ -36,15 +35,14 @@ describe("", () => {
       [16, 24],
       [14, 18],
     ];
-    const result = reader.concat(ranges);
-    console.log(result);
+    const result = reader.joinRanges(ranges);
     expect(result).toEqual([[-2, 24]]);
   });
 
   it("checks if there is any overlap betweenr anges", () => {
     const reader = new SignalReader("./day-15/mock.txt", 10);
     expect(
-      reader.allAreSeparate([
+      reader.noneOverlap([
         [-2, 18],
         [14, 24],
       ])

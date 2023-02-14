@@ -5,7 +5,6 @@ class SignalReader {
     this.path = path;
     this.y = y;
     this.data = this.parse();
-    // [this.row, this.scanners] = this.parse();
   }
 
   calculate() {
@@ -13,16 +12,10 @@ class SignalReader {
       .map((s) => this.getScanRange(s))
       .filter((r) => r != 0);
     const joined = this.joinRanges(scanned);
+    console.log(joined);
+    const lengths = joined.map((range) => range[1] - range[0] + 1);
     const beacons = this.getBeaconCount(joined);
-    const lengths = joined.map((range) => range[1] - range[0]);
-    return lengths.reduce((a, b) => a + b, 0) + 1 - beacons;
-  }
-
-  getScannersInMaxRange() {
-    const max = Math.max(...this.data.map((c) => c[4]));
-    return this.data.filter(
-      (c) => c[1] <= this.y + max && c[1] >= this.y - max
-    );
+    return lengths.reduce((a, b) => a + b, 0) - beacons;
   }
 
   getScanRange(s) {
@@ -43,11 +36,11 @@ class SignalReader {
         else concatenated.push(ranges[i]);
       });
     }
-    if (this.noOverlaps(concatenated)) return concatenated;
+    if (this.noneOverlap(concatenated)) return concatenated;
     return this.joinRanges(concatenated);
   }
 
-  noOverlaps(ranges) {
+  noneOverlap(ranges) {
     if (ranges.length == 1) return true;
     for (let i = 0; i < ranges.length; i++) {
       for (let x = 0; x < ranges.length; x++) {
@@ -81,8 +74,15 @@ class SignalReader {
     return [...new Set(beacons)].length;
   }
 
-  getRow() {
-    return this.data.filter((c) => c[1] == this.y || c[3] == this.y);
+  getScannersInMaxRange() {
+    const max = Math.max(...this.data.map((c) => c[4]));
+    return this.data.filter(
+      (c) => c[1] <= this.y + max && c[1] >= this.y - max
+    );
+  }
+
+  getRow(y = this.y) {
+    return this.data.filter((c) => c[1] == this.y || c[3] == y);
   }
 
   parse(y) {
@@ -99,13 +99,6 @@ class SignalReader {
       c.push(Math.abs(c[2] - c[0]) + Math.abs(c[3] - c[1]));
     });
     return coordinates;
-
-    // const max = Math.max(...coordinates.map((c) => c[4]));
-    // const scanners = coordinates.filter(
-    //   (c) => c[1] <= this.y + max && c[1] >= this.y - max
-    // );
-    // const row = coordinates.filter((c) => c[1] == this.y || c[3] == this.y);
-    // return [row, scanners];
   }
 }
 
