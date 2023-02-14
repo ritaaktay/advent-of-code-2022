@@ -21,12 +21,13 @@ Will add Manhattan distance at index 4, ex:
 ...
 
 To get the coordinates where there can be no beacon at a given row R:
-Find the max scan distance amongst all scanners
-For all rows R + max distance to R - max distances, locate any Scanners
-For these Scanners, it is possible that they will effect row R, so these will be the ones in consideration
-Calculate the scan zone of each scanner based on its own scan distance
-Concat the scan zones, remove duplicates, remove coordinates where there is already a beacon...
-Count how many of the remaining coordinates have row R's y index.
+
+- Find the max scan distance amongst all scanners
+- For all rows R + max distance to R - max distances, locate any Scanners
+- For these Scanners, it is possible that they will effect row R, so these will be the ones in consideration
+- Calculate the scan zone of each scanner based on its own scan distance
+- Concat the scan zones, remove duplicates, remove coordinates where there is already a beacon...
+- Count how many of the remaining coordinates have row R's y index.
 
 Can I do it without constructing a matrix, and thus deal with the negative coordiantes? Yes.
 
@@ -42,17 +43,17 @@ Would it be possible to have some math tell me which indices in ONLY THE SPECIFI
 
 If I can express each row in terms of length and location, I can know what part of a given Row a given Scanner will be covering
 
-Length is in relation to the distance from Scanner to it's nearest Beacon. Let's call this Range.
-At the y index of Scanner Length = (Range x 2) + 1
-From then on it decreases by 2 with each row away from Scanner in either direction
-This Distancecan be expressed as |y index of Row - y index of Scanner|
-So Length at Row is (Range x 2) + 1 - (Distance x 2)
+- Length is in relation to the distance from Scanner to it's nearest Beacon. Let's call this Range.
+- At the y index of Scanner Length = (Range x 2) + 1
+- From then on it decreases by 2 with each row away from Scanner in either direction
+- This Distancecan be expressed as |y index of Row - y index of Scanner|
+- So Length at Row is (Range x 2) + 1 - (Distance x 2)
 
-The Location can be expressed as a Start Index and an End Index
-At y index of Scanner, Start Index is x index of Scanner - Range
-From then on it increases by 1 with each row further away from the scanner in either direction
-So Start Index is x index of Scanner - Range + Distance
-End Index is Start Index + Length - 1
+- The Location can be expressed as a Start Index and an End Index
+- At y index of Scanner, Start Index is x index of Scanner - Range
+- From then on it increases by 1 with each row further away from the scanner in either direction
+- So Start Index is x index of Scanner - Range + Distance
+- End Index is Start Index + Length - 1
 
 Ok, but still too slow because I loop over the indices in the Length and there are over 100,000 ...
 
