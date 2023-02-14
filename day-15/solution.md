@@ -1,4 +1,4 @@
---- Part Two ---
+--- Part One ---
 
 Parsed input to store each signal reader & beacon as an array, where index 0 & 1 are signal reader x & y, and index 2 & 3 are beacon x & y
 
