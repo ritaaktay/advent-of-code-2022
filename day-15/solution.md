@@ -2,22 +2,22 @@
 
 Parsed input to store each signal reader & beacon as an array, where index 0 & 1 are signal reader x & y, and index 2 & 3 are beacon x & y
 
-[2, 18, -2, 15],
-[9, 16, 10, 16],
-[13, 2, 15, 3],
-[12, 14, 10, 16],
-[10, 20, 10, 16],
-[14, 17, 10, 16],
+[2, 18, -2, 15],\
+[9, 16, 10, 16],\
+[13, 2, 15, 3],\
+[12, 14, 10, 16],\
+[10, 20, 10, 16],\
+[14, 17, 10, 16],\
 ...
 
 Will add Manhattan distance at index 4, ex:
 
-[2, 18, -2, 15, 7],
-[9, 16, 10, 16, 1],
-[13, 2, 15, 3, 3],
-[12, 14, 10, 16, 4],
-[10, 20, 10, 16, 4],
-[14, 17, 10, 16, 5],
+[2, 18, -2, 15, 7],\
+[9, 16, 10, 16, 1],\
+[13, 2, 15, 3, 3],\
+[12, 14, 10, 16, 4],\
+[10, 20, 10, 16, 4],\
+[14, 17, 10, 16, 5],\
 ...
 
 To get the coordinates where there can be no beacon at a given row R:
@@ -34,10 +34,10 @@ Passes test input but looping through the scan range of even one scanner for the
 
 Would it be possible to have some math tell me which indices in ONLY THE SPECIFIED ROW will be in the scan range of a given scanner?
 
-...#...
-..###..
-.##S##.
-..###..
+...#...\
+..###..\
+.##S##.\
+..###..\
 ...#...
 
 If I can express each row in terms of length and location, I can know what part of a given Row a given Scanner will be covering
@@ -75,24 +75,24 @@ Overlap drawings:
 
 When partial overlap:
 
-a.....----------  
+a.....----------\
 b..-------
 
-a....-----------
+a....-----------\
 b....------
 
-a....-----------
+a....-----------\
 b....-----------
 
 startB <= startA && endB <= endA && endB > startA
 
-a....--------
+a....--------\
 b.......----------
 
-a....--------
+a....--------\
 b....-------------
 
-a....----------
+a....----------\
 b....----------
 
 startA <= startB && endA <= endB && endA > startB
@@ -108,10 +108,10 @@ This allocation will place one as first and THE OTHER as second when they are eq
 
 When complete subsumbtion:
 
-a...------------
+a...------------\
 b.....------
 
-a.......----
+a.......----\
 b....-------------
 
 firstStart <= secondStart && firstEnd >= secondEnd
@@ -149,24 +149,26 @@ Are under consideration is between 0 < x < 4000000 and 0 < y < 4000000 coordinat
 There will be only one slot in this entire range that can have a beacon. This means,
 If I go row by row and apply the previous calculation, the stage where the scanning ranges are concatenated will have all rows with a single range, except one, which will have two ranges, the exluded indices being the one with the distress beacon.
 
+.... So, can I loop through 4000000 rows? ....
+
+It takes 16.49 s but it got the right answer!
+
+Bug:
+
 Bug in the concatenation recursion, there is a concatenated range array
-[
-[ -3, 13 ],
-[ 15, 25 ],
-[ 15, 25 ],
-[ 15, 25 ],
-[ 15, 17 ],
-[ 15, 17 ],
-[ 15, 17 ]
-]
+[\
+[ -3, 13 ],\
+[ 15, 25 ],\
+[ 15, 25 ],\
+[ 15, 25 ],\
+[ 15, 17 ],\
+[ 15, 17 ],\
+[ 15, 17 ]\
+]\
 Which the noneOverlap function returns false for, as some points are overlapping, but the concatenating function cannot concatenate any further... Which creates an infinite recursion.
 
 Bug fix:
 Add into the concatenated array only if the range in question does not overlap with ANY of the ranges already in the concatenated array.
 
-The buggy version was pushing for as many times as it did not detect and overlap between the range in question and ONE of the ranges in the
+The buggy version was pushing for as many times as it did not detect an overlap between the range in question and ONE of the ranges in the
 concatenated array, creating double and tripple pushes.
-
-So, can I loop through 4000000 rows? ...
-
-It takes 16.49 s but it got the right answer!
