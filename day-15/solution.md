@@ -18,60 +18,60 @@ Will add Manhattan distance at index 4, ex:
 [14, 17, 10, 16, 5],
 ...
 
-Quickest way to get the coordinates where there can be no beacon at a given row N:
-Find the max Manhattan distance
-For all rows N + max distance, N - max distances, locate the signal readers
-For these signal readers, calculate their scan zone based on their closest beacon
-See how many of these points have Y coordinate N
-Remove duplicates! Remove coordinates where there is already a signal reader or beacon!
+To get the coordinates where there can be no beacon at a given row R:
+Find the max scan distance amongst all scanners
+For all rows R + max distance to R - max distances, locate any Scanners
+For these Scanners, it is possible that they will effect row R, so these will be the ones in consideration
+Calculate the scan zone of each scanner based on its own scan distance
+Concat the scan zones, remove duplicates, remove coordinates where there is already a beacon...
+Count how many of the remaining coordinates have row R's y index.
 
-Can I do it without constructing a matrix, and thus deal with the negative coordiantes?
+Can I do it without constructing a matrix, and thus deal with the negative coordiantes? Yes.
 
-Passes test input but looping through the scan range of even one scanner for the puzzle input is incredibly slow, it has a heigh of around 600,000...
+Passes test input but looping through the scan range of even one scanner for the puzzle input is incredibly slow, scan distances are in the 600,000s...
 
-Would there be a way to not loop through all and have some math that can tell me which indices in the specified row only will be in the scan range of a given scanner?
+Would it be possible to have some math tell me which indices in ONLY THE SPECIFIED ROW will be in the scan range of a given scanner?
 
-...#... - amount, location
-..###.. - amount, location
-.##S##. - amount, location
-..###.. - amount, location
-...#... - amount, location
+...#...
+..###..
+.##S##.
+..###..
+...#...
 
-If I can express each row in terms of Amount and Location, I can know what part of a given row Y a given scanner S will be covering
+If I can express each row in terms of length and location, I can know what part of a given Row a given Scanner will be covering
 
-Amount is in relation to the distance from scanner to it's nearest beacon, lets call this Range
-At y-index of Scanner Amount = (Range x 2) + 1
-From then on, it decreases by 2 with each row further away from the Scanner in either direction
-Let's say Distance is the absolute distance from y-index of Scanner S to y-index of Row R
-Distance = |y-index of Row - y-index of Scanner|
-So the Amount at row X can be expressed as (Range x 2) + 1 - (Distance x 2)
+Length is in relation to the distance from Scanner to it's nearest Beacon. Let's call this Range.
+At the y index of Scanner Length = (Range x 2) + 1
+From then on it decreases by 2 with each row away from Scanner in either direction
+This Distancecan be expressed as |y index of Row - y index of Scanner|
+So Length at Row is (Range x 2) + 1 - (Distance x 2)
 
-The Location can be expressed as Start index-x plus Amount
-At y-index of Scanner, Start is x-index of Scanner - Range
-From then on, it increases by 1 with each row further away from the Scanner in either direction
-Let's say Distance is the absolute distance from y-index of Scanner S to y-index of Row R
-So the Start Index can be expressed as x-index of Scanner - Range + Distance
+The Location can be expressed as a Start Index and an End Index
+At y index of Scanner, Start Index is x index of Scanner - Range
+From then on it increases by 1 with each row further away from the scanner in either direction
+So Start Index is x index of Scanner - Range + Distance
+End Index is Start Index + Length - 1
 
-Narrowing down scanners under consideration would be to find the max range of any Scanner, and select Scanners within that range in either direction from the given Row R's Y-index
+Ok, but still too slow because I loop over the indices in the Length and there are over 100,000 ...
 
-Per Scanner, we can calculate what indices of Row R will be within it's scan zone, and concatenate them in an array by not adding any duplicates to reduce size
+A way to avoid loops would be to take the Start and End indices of each scan zone and concatenate them based on overlaps. Once all overlaps are removesd, we can get the total amount of indices.
 
-We can filter out the Row R of the original data set and remove any indices that overlap with Scanners or Beacons, then get the length of the array as our answer
+So I will map over the scanners and concat an array that stores the Start and End x indices of each Scanner's scan zone for the specified Row.
 
-Ok, but still too slow because I loop over each index in the Amount and there are over 100,000 ...
+Then, an overlap concatenating algorith will join these Ranges to remove any overlaps by:
 
-A way to avoid loops would be to calculate the start and end indices of the scan zone, based on the Amount, and store per scanner. Then, I can see where there are overlaps and concatenate them. Once all overlaps have been removed I can get the total amount of indices.
+Place the first of the Ranges in a concat array
+Loop over the remaining Ranges and per Range
+If the Range overlaps with any in the concat array
+Replace the index in the concat array with a joined range
+If the Range does not overlap with any in the concat array
+Push it into the concat array
 
-So I will map over each scanner that is within the max range of the row, and per scanner return an array that stores the Start and End X-indices of its scan range for that row.
-
-The overlap concatenating algorithm will:
-Start by placing the first of the ranges in a concatenated array
-Loop over the remaining ranges, and per range, see if ANY of the ranges in the concatenated array has overlap.
-For those which have overlap, it will REPLACE that range with a joined version
-For those that don't have overlap, it will PUSH the range into the concatenated array
-At the end, the concatenated array will have only unique, non ovelrapping start-end indices for the scan ranges, from which the total unique indices can be calculated
+This needs an overlap function that takes a & b, and either returns a joined range, or false if no overlap.
 
 Overlap drawings:
+
+When partial overlap:
 
 a.....----------  
 b..-------
@@ -95,11 +95,16 @@ b....----------
 
 startA <= startB && endA <= endB && endA > startB
 
-[firstStart, firstEnd] = a[0] > b[0] ? b : a
-[secondStart, secondEnd] = a[0] <= b[0] ? b : a
-Expressed this way it factors for when they might be equal, placing one as first and THE OTHER as second
+Expressed in terms of First & Second rather than A & B these two can be combined into one expression:
 
 firstStart <= secondStart && firstEnd <= secondEnd && firstEnd >= secondStart
+
+[firstStart, firstEnd] = a[0] > b[0] ? b : a
+[secondStart, secondEnd] = a[0] <= b[0] ? b : a
+
+This allocation will place one as first and THE OTHER as second when they are equal.
+
+When complete subsumbtion:
 
 a...------------
 b.....------
@@ -109,10 +114,28 @@ b....-------------
 
 firstStart <= secondStart && firstEnd >= secondEnd
 
-firstStart <= secondStart --- this part is covered by the logic that labels them as first and second
+To combine the two:
 
-and I need to keep the two conditions separate so that I can concat differently
+firstStart <= secondStart is covered by the logic that labels them as first and second
+
+For the rest, I need to keep the two conditions separate so that I can concat differently:
 
 if (firstEnd <= secondEnd && firstEnd >= secondStart) return [firstStart, secondEnd]
 if (firstEnd >= secondEnd) return [firstStart, firstEnd]
 else return false
+
+The concatenation has to be recursive!
+
+Because the concating function can end up with reducing the initial ranges to less but still overlapping ranges... It concats the first range in the concatenated array that it finds to be overlapping with a given Range, so it's potential overlap with any subsequent ones is ignored. This leads to reduced but potentially still overlapping ranges. I need to reapply the concatenation untill there are no overlapping ranges.
+
+So after performing a concatenation loop, the concatenating function checks if there are overlaps between the remaining elements, and if so, calls itself with the concatenated array. If no overlaps, it returns the concatenated array.
+
+There is another function that checks if there are any overlaps between the concatenated elements:
+
+A nested for loop checks that each element is checked in relation to every other. The cases where the indices are the same between the inner and outer loop are ignored so that an element is not checked in relation to itself.
+
+The same overlap function used in the concatenating function is used to check if there is an overlap between two elements. If at any point, an overlap is located, the checking function returns false and prompts a recursion of the concatenating function. If the nested loop completes without the overlap function returning true, that means no item overlaps with another and the checking function returns true, stopping the recursion of the concatenating function.
+
+The removal of the Beacons within the final range happens by calculating which Beacons in the specified Row have an x index that falls within the concatenated range. This beacon count is stored to be removed from the final length calculation.
+
+The final calculation converts the Ranges - that were expressed as Start and End indices - into lengths with inclusive indices, totals them, and removes the beacon count.

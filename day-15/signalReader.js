@@ -12,7 +12,6 @@ class SignalReader {
       .map((s) => this.getScanRange(s))
       .filter((r) => r != 0);
     const joined = this.joinRanges(scanned);
-    console.log(joined);
     const lengths = joined.map((range) => range[1] - range[0] + 1);
     const beacons = this.getBeaconCount(joined);
     return lengths.reduce((a, b) => a + b, 0) - beacons;
@@ -41,7 +40,6 @@ class SignalReader {
   }
 
   noneOverlap(ranges) {
-    if (ranges.length == 1) return true;
     for (let i = 0; i < ranges.length; i++) {
       for (let x = 0; x < ranges.length; x++) {
         if (i == x) continue;
