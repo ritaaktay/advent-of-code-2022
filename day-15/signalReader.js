@@ -6,13 +6,16 @@ class SignalReader {
     this.data = this.parse();
   }
 
-  findBeacon() {
-    for (let i = 0; i <= 20; i++) {
+  findBeacon(x) {
+    for (let i = 0; i <= x; i++) {
       const ranges = this.getRangesForRow(i);
       if (ranges.length == 2) {
-        if (ranges[1][0] - ranges[0][1] > 1) {
-          const x = ranges[0][1] + 1;
-          return x * 4000000 + i;
+        const [first, second] =
+          ranges[0][0] > ranges[1][0]
+            ? [ranges[1], ranges[0]]
+            : [ranges[0], ranges[1]];
+        if (second[0] - first[1] > 1) {
+          return (first[1] + 1) * 4000000 + i;
         }
       }
     }
