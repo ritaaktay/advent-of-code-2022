@@ -51,7 +51,7 @@ describe("", () => {
 
   it("finds beacon", () => {
     const reader = new SignalReader("./day-15/mock.txt");
-    reader.findBeacon();
+    expect(reader.findBeacon()).toEqual(56000011);
   });
 
   it("concatenates ranges without infinite recursion", () => {

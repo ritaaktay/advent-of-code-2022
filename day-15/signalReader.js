@@ -7,10 +7,13 @@ class SignalReader {
   }
 
   findBeacon() {
-    for (let i = 0; i <= 4000000; i++) {
+    for (let i = 0; i <= 20; i++) {
       const ranges = this.getRangesForRow(i);
       if (ranges.length == 2) {
-        return;
+        if (ranges[1][0] - ranges[0][1] > 1) {
+          const x = ranges[0][1] + 1;
+          return x * 4000000 + i;
+        }
       }
     }
   }
