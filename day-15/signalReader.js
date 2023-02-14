@@ -10,10 +10,7 @@ class SignalReader {
     for (let i = 0; i <= x; i++) {
       const ranges = this.getRangesForRow(i);
       if (ranges.length == 2) {
-        const [first, second] =
-          ranges[0][0] > ranges[1][0]
-            ? [ranges[1], ranges[0]]
-            : [ranges[0], ranges[1]];
+        const [first, second] = ranges.sort((a, b) => a[0] - b[0]);
         if (second[0] - first[1] > 1) {
           return (first[1] + 1) * 4000000 + i;
         }

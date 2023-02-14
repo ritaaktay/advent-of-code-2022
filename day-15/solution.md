@@ -147,10 +147,7 @@ The final calculation converts the Ranges - that were expressed as Start and End
 Are under consideration is between 0 < x < 4000000 and 0 < y < 4000000 coordinates.
 
 There will be only one slot in this entire range that can have a beacon. This means,
-If I go row by row and apply the previous calculation, the stage where the scanning ranges
-are concatenated will have all rows with a single range, except one, which will have two ranges, the exluded indices being the one with the distress beacon.
-
-But I can not loop through 4000000 rows? ...
+If I go row by row and apply the previous calculation, the stage where the scanning ranges are concatenated will have all rows with a single range, except one, which will have two ranges, the exluded indices being the one with the distress beacon.
 
 Bug in the concatenation recursion, there is a concatenated range array
 [
@@ -169,3 +166,7 @@ Add into the concatenated array only if the range in question does not overlap w
 
 The buggy version was pushing for as many times as it did not detect and overlap between the range in question and ONE of the ranges in the
 concatenated array, creating double and tripple pushes.
+
+So, can I loop through 4000000 rows? ...
+
+It takes 16.49 s but it got the right answer!
