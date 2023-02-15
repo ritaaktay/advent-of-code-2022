@@ -147,12 +147,13 @@ The final calculation converts the Ranges - that were expressed as Start and End
 
 Are under consideration is between 0 < x < 4000000 and 0 < y < 4000000 coordinates.
 
-There will be only one slot in this entire range that can have a beacon. This means,
-If I go row by row and apply the previous calculation, the stage where the scanning ranges are concatenated will have all rows with a single range, except one, which will have two ranges, the exluded indices being the one with the distress beacon.
+There will be only one slot in this entire range that can have a beacon. This means, there will be only one GAP.
+
+If I go row by row and apply the previous calculation, the stage where the scanning ranges are concatenated will have all rows with a single range, except one, which will have two ranges, the exluded indices being the one with the distress beacon.(Ok, some rows have multiple ranges, where there is no gap between the end of one range and the start of another, as thechincally, they do not overlap, it's ok though, I can still look for whether there is a gap between the end of the first range and start of the next)
 
 .... So, can I loop through 4000000 rows? ....
 
-It takes 16.49 s but it got the right answer!
+It takes 16.49s but it got the right answer!
 
 Bug:
 
@@ -161,19 +162,20 @@ Bug in the concatenation recursion, there is a concatenated range array
 [ -3, 13 ],\
 [ 15, 25 ],\
 [ 15, 25 ],\
-[ 15, 25 ],\
 [ 15, 17 ],\
-[ 15, 17 ],\
-[ 15, 17 ]\
 ]\
-Which the noneOverlap function returns false for, as some points are overlapping, but the concatenating function cannot concatenate any further... Which creates an infinite recursion.
+Which the noOverlaps function returns false for, as some points are identical, but the concatenating function cannot concatenate any further... Which creates an infinite recursion.
 
 Bug fix:
+Make ranges unique before processing.
 Add into the concatenated array only if the range in question does not overlap with ANY of the ranges already in the concatenated array.
 
 The buggy version was pushing for as many times as it did not detect an overlap between the range in question and ONE of the ranges in the
-concatenated array, creating double and tripple pushes.
+concatenated array, creating double and tripple pushes of the same range...
 
-Take away:
+THE TAKE AWAY:
 
-So the efficiency related take away here was using mathematical formulas to express things and doing calculations, rather than relying on for loops and processing power to do it by brute force. Ex. instead of looping over 400,000 rows to check one by one, it is expressing the formula for a single row based on its y-index so that the calculations can be much more targeted.
+So the efficiency related take away here was using mathematical formulas to express things and doing calculations, rather than relying on for loops and processing power to do it by brute force. Ex. instead of looping over 400,000 rows to check one by one, expressing the formula for a single row based on its y-index so that the calculations can be much more targeted and arithmetic rather than manual.
+
+Also the bulk of the code (3 methods in total) is for the merging ranges, which exists as a programming problem - https://www.geeksforgeeks.org/merging-intervals/
+If I wanted to refactor further, I could use the sorted approach to simpligy this step.
