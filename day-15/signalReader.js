@@ -3,12 +3,12 @@ const { readFileSync } = require("fs");
 class SignalReader {
   constructor(path) {
     this.path = path;
-    this.data = this.parse();
+    this.sensorsAndBeacons = this.parse();
   }
 
-  findBeacon(x) {
+  findBeaconAtRow(x) {
     for (let i = 0; i <= x; i++) {
-      const ranges = this.getRangesForRow(i);
+      const ranges = this.getScanRangesForRow(i);
       if (ranges.length == 2) {
         const [first, second] = ranges.sort((a, b) => a[0] - b[0]);
         if (second[0] - first[1] > 1) {
@@ -18,57 +18,58 @@ class SignalReader {
     }
   }
 
-  calculate(y) {
-    const ranges = this.getRangesForRow(y);
-    const lengths = ranges.map((range) => range[1] - range[0] + 1);
-    const beacons = this.getBeaconCount(ranges, y);
-    return lengths.reduce((a, b) => a + b, 0) - beacons;
+  noBeaconSpotsInRow(y) {
+    const scannerRanges = this.getScanRangesForRow(y);
+    const scanLengths = scannerRanges.map((range) => range[1] - range[0] + 1);
+    const beaconsAtRow = this.getBeaconCountAtRow(scannerRanges, y);
+    const total = scanLengths.reduce((a, b) => a + b, 0);
+    return total - beaconsAtRow;
   }
 
-  getRangesForRow(y) {
+  getScanRangesForRow(y) {
     const scanned = this.getScannersInMaxRange(y)
-      .map((s) => this.getScanRange(s, y))
+      .map((s) => this.getScannerRange(s, y))
       .filter((r) => r != 0);
     return this.joinRanges(scanned);
   }
 
-  getScanRange(s, y) {
-    const range = s[4];
-    const distance = Math.abs(y - s[1]);
-    const amount = range * 2 + 1 - distance * 2;
-    const start = s[0] - range + distance;
-    if (amount <= 0) return 0;
-    return [start, start + amount - 1];
+  getScannerRange(s, y) {
+    const scanRange = s[4];
+    const distanceFromRow = Math.abs(y - s[1]);
+    const scanLength = scanRange * 2 + 1 - distanceFromRow * 2;
+    const startIndex = s[0] - scanRange + distanceFromRow;
+    if (scanLength <= 0) return 0;
+    return [startIndex, startIndex + scanLength - 1];
   }
 
   joinRanges(ranges) {
-    const unique = [ranges[0]];
+    const uniqueRanges = [ranges[0]];
     for (let i = 1; i < ranges.length; i++) {
       let added = false;
-      for (let x = 0; x < unique.length; x++) {
-        const overlap = this.overlap(ranges[i], unique[x]);
-        if (overlap) {
-          unique[x] = overlap;
+      for (let x = 0; x < uniqueRanges.length; x++) {
+        const jointRange = this.getJointRange(ranges[i], uniqueRanges[x]);
+        if (jointRange) {
+          uniqueRanges[x] = jointRange;
           added = true;
         }
       }
-      if (!added) unique.push(ranges[i]);
+      if (!added) uniqueRanges.push(ranges[i]);
     }
-    if (this.noneOverlap(unique)) return unique;
-    return this.joinRanges(unique);
+    if (this.noOverlaps(uniqueRanges)) return uniqueRanges;
+    return this.joinRanges(uniqueRanges);
   }
 
-  noneOverlap(ranges) {
+  noOverlaps(ranges) {
     for (let i = 0; i < ranges.length; i++) {
       for (let x = 0; x < ranges.length; x++) {
         if (i == x) continue;
-        if (this.overlap(ranges[i], ranges[x])) return false;
+        if (this.getJointRange(ranges[i], ranges[x])) return false;
       }
     }
     return true;
   }
 
-  overlap(a, b) {
+  getJointRange(a, b) {
     const [firstStart, firstEnd] = a[0] > b[0] ? b : a;
     const [secondStart, secondEnd] = a[0] <= b[0] ? b : a;
     if (firstEnd <= secondEnd && firstEnd >= secondStart) {
@@ -78,7 +79,7 @@ class SignalReader {
     return false;
   }
 
-  getBeaconCount(ranges, y) {
+  getBeaconCountAtRow(ranges, y) {
     const beacons = [];
     this.getRow(y).forEach((x) => {
       for (let i = 0; i < ranges.length; i++) {
@@ -92,12 +93,14 @@ class SignalReader {
   }
 
   getScannersInMaxRange(y) {
-    const max = Math.max(...this.data.map((c) => c[4]));
-    return this.data.filter((c) => c[1] <= y + max && c[1] >= y - max);
+    const maxRange = Math.max(...this.sensorsAndBeacons.map((c) => c[4]));
+    return this.sensorsAndBeacons.filter(
+      (c) => c[1] <= y + maxRange && c[1] >= y - maxRange
+    );
   }
 
   getRow(y) {
-    return this.data.filter((c) => c[1] == y || c[3] == y);
+    return this.sensorsAndBeacons.filter((c) => c[1] == y || c[3] == y);
   }
 
   parse() {

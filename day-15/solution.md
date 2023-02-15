@@ -173,3 +173,7 @@ Add into the concatenated array only if the range in question does not overlap w
 
 The buggy version was pushing for as many times as it did not detect an overlap between the range in question and ONE of the ranges in the
 concatenated array, creating double and tripple pushes.
+
+Take away:
+
+So the efficiency related take away here was using mathematical formulas to express things and doing calculations, rather than relying on for loops and processing power to do it by brute force. Ex. instead of looping over 400,000 rows to check one by one, it is expressing the formula for a single row based on its y-index so that the calculations can be much more targeted.

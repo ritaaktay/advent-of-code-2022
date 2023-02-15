@@ -3,12 +3,12 @@ const SignalReader = require("./signalReader");
 describe("", () => {
   it("calculates", () => {
     const reader = new SignalReader("./day-15/mock.txt");
-    expect(reader.calculate(10)).toEqual(26);
+    expect(reader.noBeaconSpotsInRow(10)).toEqual(26);
   });
 
   it("calculates scan range of a scanner on the row in question", () => {
     const reader = new SignalReader("./day-15/mock.txt");
-    expect(reader.getScanRange([8, 7, 2, 10, 9], 10)).toEqual([2, 14]);
+    expect(reader.getScannerRange([8, 7, 2, 10, 9], 10)).toEqual([2, 14]);
   });
 
   it("concats ranges to remove overlaps", () => {
@@ -42,7 +42,7 @@ describe("", () => {
   it("checks if there is any overlap betweenr anges", () => {
     const reader = new SignalReader("./day-15/mock.txt");
     expect(
-      reader.noneOverlap([
+      reader.noOverlaps([
         [-2, 18],
         [14, 24],
       ])
@@ -51,7 +51,7 @@ describe("", () => {
 
   it("finds beacon", () => {
     const reader = new SignalReader("./day-15/mock.txt");
-    expect(reader.findBeacon(20)).toEqual(56000011);
+    expect(reader.findBeaconAtRow(20)).toEqual(56000011);
   });
 
   it("concatenates ranges without infinite recursion", () => {
