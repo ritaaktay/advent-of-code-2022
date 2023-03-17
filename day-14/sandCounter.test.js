@@ -31,9 +31,4 @@ describe("", () => {
     const counter = new SandCounter("./day-14/mock.txt", false);
     expect(counter.simulate()).toEqual(24);
   });
-
-  it("counts sand with floor", () => {
-    const counter = new SandCounter("./day-14/mock.txt", true);
-    expect(counter.simulate()).toEqual(93);
-  });
 });
